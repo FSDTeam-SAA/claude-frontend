@@ -4,8 +4,6 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import AuthProvider from "@/components/providers/AuthProvider";
 import AppProvider from "@/components/providers/AppProvider";
-import Navbar from "@/components/shared/Navbar/Navbar";
-import Footer from "@/components/shared/Footer/Footer";
 
 const daggerSquare = localFont({
   src: "./fonts/DAGGERSQUARE.otf",
@@ -24,10 +22,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`font-dagger antialiased`}>
         <AuthProvider>
           <AppProvider>
-            <Navbar/>
+
             {children}
             <Toaster />
-            <Footer/>
+
           </AppProvider>
         </AuthProvider>
       </body>
