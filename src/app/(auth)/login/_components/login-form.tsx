@@ -73,7 +73,7 @@ const LoginForm = () => {
   }
   return (
     <div>
-      <div className="w-full md:w-[570px] lg:w-[672px] bg-white rounded-[16px] border-[2px] border-[#E7E7E7] shadow-[0px_0px_32px_0px_#0000001F] p-8">
+      <div className="w-full md:w-[570px] bg-white rounded-[16px] border-[2px] border-[#E7E7E7] shadow-[0px_0px_32px_0px_#0000001F] p-8">
         <div className="w-full flex items-center justify-center pb-4">
           <Link href="/">
           <Image src="/assets/images/auth-logo.png" alt="auth logo" width={500} height={500} className="w-[290px] h-[80px] object-contain"/>
