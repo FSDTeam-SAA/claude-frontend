@@ -4,9 +4,12 @@ import React from 'react'
 
 const WebsiteLayout = ({ children }: { children: React.ReactNode }) => {
     return (
-        <div>
+        <div className=''>
             <Navbar />
-            {children}
+            <main className="min-h-screen">
+
+                {children}
+            </main>
             <Footer />
         </div>
     )
