@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Image from 'next/image'
-
+import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,6 +20,9 @@ import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const formSchema = z
   .object({
@@ -40,7 +43,11 @@ const formSchema = z
 const ResetPasswordForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [confirmShowPassword, setConfirmShowPassword] = useState(false);
-  const isPending = false;
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email");
+  const decodedEmail = decodeURIComponent(email || "")
+  const router = useRouter();
+ 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -50,9 +57,36 @@ const ResetPasswordForm = () => {
     },
   });
 
+
+  const {mutate, isPending} = useMutation({
+    mutationKey: ["reset-password"],
+    mutationFn : async (values: {email:string, newPassword:string})=>{
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/reset-password`,{
+        method: "POST",
+        headers: {
+          "Content-Type" : "application/json"
+        },
+        body : JSON.stringify(values)
+      })
+      return res.json();
+    },
+    onSuccess: (data)=>{
+      if(!data?.success){
+        toast.error(data?.message || "Something went wrong");
+        return
+      }else{
+        toast.success(data?.message || "Password reset successfully");
+        router.push("/login")
+      }
+    }
+  })
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+    const payload ={
+      email: decodedEmail,
+      newPassword: values?.password
+    }
+    mutate(payload)
   }
   return (
     <div className="w-full md:w-[570px] bg-white rounded-[16px] border-[2px] border-[#E7E7E7] shadow-[0px_0px_32px_0px_#0000001F] p-8">

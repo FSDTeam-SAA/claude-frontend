@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -28,6 +29,7 @@ const formSchema = z.object({
 
 
 const ForgotPasswordForm = () => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -47,13 +49,13 @@ const ForgotPasswordForm = () => {
       });
       return res.json();
     },
-    onSuccess: (data)=>{
+    onSuccess: (data, email)=>{
       if(!data?.success){
         toast?.error(data?.message || "Something went wrong");
         return
       }
       toast?.success(data?.message || "OTP sent to your email");
-      // router.push("/login")
+      router.push(`/forgot-password/otp?email=${encodeURIComponent(email?.email)}`)
     }
   })
 
