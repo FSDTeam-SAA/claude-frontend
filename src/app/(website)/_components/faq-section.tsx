@@ -35,12 +35,11 @@ export function FAQSection() {
   ]
 
   return (
-    <section className="py-20 bg-background">
-      <div className="container mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
-          <p className="text-lg text-muted-foreground">Find answers to common questions about our platform</p>
-        </div>
+    <section className="py-6 md:py-10 lg:py-16 bg-[#F4FFF4]">
+      <div className="container ">
+        <h4 className='text-2xl md:text-4xl lg:text-[48px] text-center font-normal leading-[120%] text-[#131313]'>FAQ Analytic Soccer</h4>
+        <p className='text-sm lg:text-base text-[#616161] leading-[150%] text-center font-nnormal pt-4 pb-6 md:pb-8 lg:pb-10'>Get answers to common questions about our vehicle inspection <br />
+          services and process.</p>
         <div className="border border-border rounded-lg p-6">
           {faqs.map((faq, idx) => (
             <FAQItem key={idx} {...faq} />

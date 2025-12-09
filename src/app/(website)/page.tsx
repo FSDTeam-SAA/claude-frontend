@@ -1,7 +1,8 @@
 import React from 'react'
 // import { MissionSection } from './_components/mission-section'
-// import { FAQSection } from './_components/faq-section'
+import { FAQSection } from './_components/faq-section'
 import HeroSection from './_components/hero-section'
+import OurPartners from './_components/our-partners'
 
 const HomePage = () => {
     return (
@@ -13,7 +14,8 @@ const HomePage = () => {
                 {/* <OfferingsSection />
                 <AnalyticsProcessSection />
                 <PricingSection /> */}
-                {/* <FAQSection /> */}
+                <OurPartners/>
+                <FAQSection />
             </>
         </div>
     )
