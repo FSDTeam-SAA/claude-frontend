@@ -6,16 +6,22 @@ import WhyDataMatters from './_components/why-data-matters'
 import WhyYouNeedAProfile from './_components/why-you-need-profile'
 import WhyWeAreUnique from './_components/why-we-are-unique'
 import HowOurAnalytics from './_components/how-our-analytics'
+import AccessThePlatform from './_components/access-the-platform'
+import WhatDoWeOffer from './_components/what-do-we-offer'
+import OurMission from './_components/our-mission'
 
 const HomePage = () => {
     return (
         <div>
             <>
                 <HeroSection />
+                <OurMission/>
+                <WhatDoWeOffer/>
                 <HowOurAnalytics/>
                 <WhyWeAreUnique/>
                 <WhyYouNeedAProfile/>
                 <WhyDataMatters/>
+                <AccessThePlatform/>
                 <OurPartners/>
                 <FaqSection />
             </>
