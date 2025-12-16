@@ -19,8 +19,8 @@ import { toast } from "sonner"
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname();
-    const [logoutModalOpen, setLogoutModalOpen] = useState(false);
-    const [open, setOpen] = useState(false)
+  const [logoutModalOpen, setLogoutModalOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
 
   const session = useSession();
@@ -31,11 +31,11 @@ const Navbar = () => {
   // console.log(user)
 
 
-useEffect(() => {
-  setOpen(false)
-}, [pathname])
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
 
-    const handLogout = async () => {
+  const handLogout = async () => {
     try {
       toast.success("Logout successful!");
       await signOut({ callbackUrl: "/login" });
@@ -77,16 +77,16 @@ useEffect(() => {
                 status === "authenticated" && user ? (
                   <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
                     <DropdownMenuTrigger>
-                      <Image src={user?.profileImage || "/assets/images/no-user.jpg"} alt="user-img" width={200} height={200} className="w-14 h-14 rounded-full border object-contain"/>
+                      <Image src={user?.profileImage || "/assets/images/no-user.jpg"} alt="user-img" width={200} height={200} className="w-14 h-14 rounded-full border object-contain" />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="p-2">
                       <Link href="/profile">
-                      <DropdownMenuLabel className="cursor-pointer text-base md:text-lg text-[#131313] leading-[120%] font-medium hover:text-primary">Profile</DropdownMenuLabel>
+                        <DropdownMenuLabel className="cursor-pointer text-base md:text-lg text-[#131313] leading-[120%] font-medium hover:text-primary">Profile</DropdownMenuLabel>
                       </Link>
                       <Link href="/password-change">
-                      <DropdownMenuLabel className="cursor-pointer text-base md:text-lg text-[#131313] leading-[120%] font-medium hover:text-primary">Password Change</DropdownMenuLabel>
+                        <DropdownMenuLabel className="cursor-pointer text-base md:text-lg text-[#131313] leading-[120%] font-medium hover:text-primary">Password Change</DropdownMenuLabel>
                       </Link>
-                      <DropdownMenuLabel onClick={() => setLogoutModalOpen(true)} className="flex items-center gap-2 cursor-pointer text-base md:text-lg text-[#B70000] leading-[120%] font-medium hover:text-red-800"><LogOut className="w-5 h-5 "/> Logout</DropdownMenuLabel>
+                      <DropdownMenuLabel onClick={() => setLogoutModalOpen(true)} className="flex items-center gap-2 cursor-pointer text-base md:text-lg text-[#B70000] leading-[120%] font-medium hover:text-red-800"><LogOut className="w-5 h-5 " /> Logout</DropdownMenuLabel>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 ) : (
@@ -128,16 +128,40 @@ useEffect(() => {
                 <Link href="/contact-us" className={`w-fit text-sm md:text-base hover:text-primary leading-[150%] text-[#131313] font-normal transition-all ease-in-out duration-300 ${pathname === "/contact-us" ? "border-b-[2px] border-primary" : "border-0"}`}>
                   Contact Us
                 </Link>
+
+
                 <div className="flex items-center justify-between gap-4 pt-2">
-                  <Link href="/login">
-                    <Button variant="ghost" size="sm" className="h-[40px] text-base text-[#131313] font-normal leading-[150%] border-[2px] border-[#131313] py-2 px-12 rounded-full">
-                      Sign In
-                    </Button>
-                  </Link>
-                  <Link href="/sign-up">
-                    <Button size="sm" className="h-[40px] py-2 px-12 rounded-full bg-primary hover:bg-primary/90 text-white text-base font-normal leading-[150%] ">
-                      Register
-                    </Button></Link>
+                  {
+                    status === "authenticated" && user ? (
+                      <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
+                        <DropdownMenuTrigger>
+                          <Image src={user?.profileImage || "/assets/images/no-user.jpg"} alt="user-img" width={200} height={200} className="w-14 h-14 rounded-full border object-contain" />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="p-2 border-2 border-red-500">
+                          <Link href="/profile">
+                            <DropdownMenuLabel className="cursor-pointer text-base md:text-lg text-[#131313] leading-[120%] font-medium hover:text-primary">Profile</DropdownMenuLabel>
+                          </Link>
+                          <Link href="/password-change">
+                            <DropdownMenuLabel className="cursor-pointer text-base md:text-lg text-[#131313] leading-[120%] font-medium hover:text-primary">Password Change</DropdownMenuLabel>
+                          </Link>
+                          <DropdownMenuLabel onClick={() => setLogoutModalOpen(true)} className="flex items-center gap-2 cursor-pointer text-base md:text-lg text-[#B70000] leading-[120%] font-medium hover:text-red-800"><LogOut className="w-5 h-5 " /> Logout</DropdownMenuLabel>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    ) : (
+                      <>
+                        <Link href="/login">
+                          <Button variant="ghost" size="sm" className="h-[40px] text-base text-[#131313] font-normal leading-[150%] border-[2px] border-[#131313] py-2 px-12 rounded-full">
+                            Sign In
+                          </Button>
+                        </Link>
+                        <Link href="/sign-up">
+                          <Button size="sm" className="h-[40px] py-2 px-12 rounded-full bg-primary hover:bg-primary/90 text-white text-base font-normal leading-[150%] ">
+                            Register
+                          </Button></Link>
+                      </>
+                    )
+                  }
+
                 </div>
               </div>
             )
@@ -145,7 +169,7 @@ useEffect(() => {
         </nav >
       </header >
 
-       {logoutModalOpen && (
+      {logoutModalOpen && (
         <LogoutModal
           isOpen={logoutModalOpen}
           onClose={() => setLogoutModalOpen(false)}
