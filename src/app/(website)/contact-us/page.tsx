@@ -1,6 +1,6 @@
 import React from 'react'
 import ContactHero from './_components/contact-hero'
-import ActivateYourProfile from './_components/activate-your-profile'
+// import ActivateYourProfile from './_components/activate-your-profile'
 import ContactInformation from './_components/contact-information'
 
 const ContactUsPage = () => {
@@ -8,7 +8,7 @@ const ContactUsPage = () => {
     <div>
       <ContactHero/>
       <ContactInformation/>
-      <ActivateYourProfile/>
+      {/* <ActivateYourProfile/> */}
     </div>
   )
 }

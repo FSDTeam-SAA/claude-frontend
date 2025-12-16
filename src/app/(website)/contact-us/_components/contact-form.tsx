@@ -16,6 +16,8 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { useMutation } from "@tanstack/react-query"
+import { toast } from "sonner"
 
 const formSchema = z.object({
   fullName: z
@@ -25,10 +27,7 @@ const formSchema = z.object({
 
   phone: z
     .string()
-    .min(10, { message: "Phone number must be at least 10 digits." })
-    .regex(/^[0-9+\-\s]+$/, {
-      message: "Phone number can only contain numbers, spaces, +, or -.",
-    }),
+    .min(9, { message: "Phone number must be at least 9 digits." }),
 
   email: z
     .string()
@@ -53,9 +52,32 @@ const ContactForm = () => {
         },
     })
 
+
+    const {mutate, isPending} = useMutation({
+        mutationKey: ["contact-us"],
+        mutationFn: async (values: {fullName:string, phone:string, message:string, email:string})=>{
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/contact`,{
+                method: "POST",
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify(values)
+            })
+            return res.json()
+        },
+        onSuccess: (data)=>{
+            if(!data?.success){
+                toast.error(data?.message || "Something went wrong");
+                return 0;
+            }
+            toast.success(data?.message || "Contact Created successfully")
+            form.reset();
+        }
+    })
     // 2. Define a submit handler.
     function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values)
+        mutate(values)
     }
     return (
         <div>
@@ -116,7 +138,7 @@ const ContactForm = () => {
                             </FormItem>
                         )}
                     />
-                    <Button className="w-full h-[48px]  text-base text-white font-normal leading-[120%] rounded-[8px] bg-primary " type="submit"> <Send /> Send Message</Button>
+                    <Button disabled={isPending} className="w-full h-[48px]  text-base text-white font-normal leading-[120%] rounded-[8px] bg-primary " type="submit"> <Send /> {isPending ? "Sending..." : "Send Message"}</Button>
                 </form>
             </Form>
         </div>
