@@ -14,7 +14,7 @@ const ProfilePicture = () => {
     const token = (session?.data?.user as { accessToken: string })?.accessToken;
     const queryClient = new QueryClient();
 
-    const [profileImage, setProfileImage] = useState("/assets/images/no-user.jpeg");
+    const [profileImage, setProfileImage] = useState("/assets/images/no-user.jpg");
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     // console.log(setProfileImage)
