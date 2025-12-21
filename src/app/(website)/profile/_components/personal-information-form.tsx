@@ -13,6 +13,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Input } from "@/components/ui/input"
 
 import {
@@ -39,12 +40,6 @@ const formSchema = z.object({
     weight: z.string().min(2, {
         message: "Weight must be at least 2 characters.",
     }),
-    sat: z.string().min(2, {
-        message: "Sat must be at least 2 characters.",
-    }),
-    gpa: z.string().min(2, {
-        message: "gpa must be at least 2 characters.",
-    }),
     agencyName: z.string().min(2, {
         message: "Agency Name must be at least 2 characters.",
     }),
@@ -66,7 +61,40 @@ const formSchema = z.object({
     gender: z.string().min(2, {
         message: "Gender Of Birth must be at least 2 characters.",
     }),
+    // inSchool: z.enum(["yes", "no"], { message: "Please select an option." }),
+    inSchool: z.enum(["yes", "no"], { message: "Please select if you are in school/college." }),
+
+    // These will be required only if inSchool === "yes"
+    instituteName: z.string().optional(),
+    gpa: z.string().optional(),
+}).refine((data) => {
+    if (data.inSchool === "yes") {
+        if (!data.instituteName || data.instituteName.trim().length < 2) return false;
+        if (!data.gpa || data.gpa.trim().length === 0) return false;
+    }
+    return true;
+}, {
+    message: "Institute Name and GPA are required if you are in school/college.",
+    path: ["instituteName"], // Shows error under Institute Name field
+}).refine((data) => {
+    if (data.inSchool === "yes") {
+        if (!data.gpa || data.gpa.trim().length === 0) return false;
+    }
+    return true;
+}, {
+    message: "GPA is required if you are in school/college.",
+    path: ["gpa"], // Ensures error also appears under GPA if needed
 })
+
+// .refine((data) => {
+//     if (data.inSchool === "yes") {
+//         return data.instituteName && data.instituteName.length >= 2 && data.gpa && data.gpa.length >= 1
+//     }
+//     return true
+// }, {
+//     message: "Institute Name and GPA are required if you are in school/college.",
+//     path: ["instituteName"], // error will show under instituteName field
+// })
 
 const PersonalInformationForm = () => {
     const form = useForm<z.infer<typeof formSchema>>({
@@ -78,9 +106,10 @@ const PersonalInformationForm = () => {
             hight: "",
             dateOfBirth: "",
             placeOfBirth: "",
-            gender:"",
+            gender: "",
             weight: "",
-            sat: "",
+            inSchool: undefined,
+            instituteName: "",
             gpa: "",
             agencyName: "",
             social_media: "",
@@ -88,6 +117,8 @@ const PersonalInformationForm = () => {
             currentClub: "",
         },
     })
+
+    const inSchool = form.watch("inSchool")
 
     // 2. Define a submit handler.
     function onSubmit(values: z.infer<typeof formSchema>) {
@@ -98,7 +129,7 @@ const PersonalInformationForm = () => {
         <div>
             <div className="pt-6">
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
                             <FormField
@@ -290,34 +321,82 @@ const PersonalInformationForm = () => {
                         </div>
 
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
-                            <FormField
-                                control={form.control}
-                                name="sat"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel className="text-base font-normal leading-[150%] text-[#131313]">SAT/ACT</FormLabel>
-                                        <FormControl>
-                                            <Input className="w-full h-[47px]  border border-[#645949] rounded-[8px] text-[#131313] placeholder:text-[#929292] text-sm font-normal leading-[150%]" placeholder="Write here" {...field} />
-                                        </FormControl>
-                                        <FormMessage className="text-red-500" />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="gpa"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel className="text-base font-normal leading-[150%] text-[#131313]">GPA</FormLabel>
-                                        <FormControl>
-                                            <Input className="w-full h-[47px]  border border-[#645949] rounded-[8px] text-[#131313] placeholder:text-[#929292] text-sm font-normal leading-[150%]" placeholder="Write here" {...field} />
-                                        </FormControl>
-                                        <FormMessage className="text-red-500" />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
+                        <FormField
+                            control={form.control}
+                            name="inSchool"
+                            render={({ field }) => (
+                                <FormItem className="space-y-3">
+                                    <FormLabel className="text-base font-normal leading-[150%] text-[#131313]">
+                                        Are you in high school or college/university?
+                                    </FormLabel>
+                                    <FormControl>
+                                        <RadioGroup
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                            className="flex flex-row items-center space-x-8"
+                                        >
+                                            <div className="flex items-center space-x-3">
+                                                <RadioGroupItem value="yes" id="yes" />
+                                                <label htmlFor="yes" className="cursor-pointer text-base font-medium text-[#131313]">
+                                                    Yes
+                                                </label>
+                                            </div>
+                                            <div className="flex items-center space-x-3">
+                                                <RadioGroupItem value="no" id="no" />
+                                                <label htmlFor="no" className="cursor-pointer text-base font-medium text-[#131313]">
+                                                    No
+                                                </label>
+                                            </div>
+                                        </RadioGroup>
+                                    </FormControl>
+                                    <FormMessage className="text-red-500" />
+                                </FormItem>
+                            )}
+                        />
+
+                        {/* Conditional Education Fields */}
+                        {inSchool === "yes" && (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
+                                <FormField
+                                    control={form.control}
+                                    name="instituteName"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="text-base font-normal leading-[150%] text-[#131313]">
+                                                Institute Name
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="Write here"
+                                                    {...field}
+                                                    className="w-full h-[47px] border border-[#645949] rounded-[8px] text-[#131313] placeholder:text-[#929292]"
+                                                />
+                                            </FormControl>
+                                            <FormMessage className="text-red-500" />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="gpa"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="text-base font-normal leading-[150%] text-[#131313]">
+                                                GPA
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="Write here"
+                                                    {...field}
+                                                    className="w-full h-[47px] border border-[#645949] rounded-[8px] text-[#131313] placeholder:text-[#929292]"
+                                                />
+                                            </FormControl>
+                                            <FormMessage className="text-red-500" />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                        )}
 
 
 
