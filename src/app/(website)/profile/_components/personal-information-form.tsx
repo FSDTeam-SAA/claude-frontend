@@ -292,6 +292,141 @@ const PersonalInformationForm = () => {
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
+
+                            <FormField
+                            control={form.control}
+                            name="gender"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-base font-normal leading-[150%] text-[#131313]">
+                                       League (Select One)
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
+                                            <SelectTrigger className="w-full h-[48px] py-2 px-3 rounded-[8px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]">
+                                                <SelectValue placeholder="Select" />
+                                            </SelectTrigger>
+                                            <SelectContent className="h-[200px] overflow-y-auto">
+                                                <SelectItem value="ecnl">ECNL</SelectItem>
+                                                <SelectItem value="ecnl rl">ECNL RL</SelectItem>
+                                                <SelectItem value="mls next">MLS NEXT</SelectItem>
+                                                <SelectItem value="npl">NPL</SelectItem>
+                                                <SelectItem value="pdl">PDL</SelectItem>
+                                                <SelectItem value="upsl">UPSL</SelectItem>
+                                                <SelectItem value="usl academy">USL Academy</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                    <FormMessage className="text-red-500" />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="gender"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-base font-normal leading-[150%] text-[#131313]">
+                                        Category
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
+                                            <SelectTrigger className="w-full h-[48px] py-2 px-3 rounded-[8px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]">
+                                                <SelectValue placeholder="Select" />
+                                            </SelectTrigger>
+                                            <SelectContent className="h-[200px] overflow-y-auto">
+                                                <SelectItem value="amateur">Amateur</SelectItem>
+                                                <SelectItem value="U9">U9</SelectItem>
+                                                <SelectItem value="U10">U10</SelectItem>
+                                                <SelectItem value="U11">U11</SelectItem>
+                                                <SelectItem value="U12">U12</SelectItem>
+                                                <SelectItem value="U13">U13</SelectItem>
+                                                <SelectItem value="U14">U14</SelectItem>
+                                                <SelectItem value="U15">U15</SelectItem>
+                                                <SelectItem value="U16">U16</SelectItem>
+                                                <SelectItem value="U17">U17</SelectItem>
+                                                <SelectItem value="U18">U18</SelectItem>
+                                                <SelectItem value="U19">U19</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                    <FormMessage className="text-red-500" />
+                                </FormItem>
+                            )}
+                        />
+                        </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
+
+                            <FormField
+                            control={form.control}
+                            name="gender"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-base font-normal leading-[150%] text-[#131313]">
+                                       Foot (select: left - right - both)
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
+                                            <SelectTrigger className="w-full h-[48px] py-2 px-3 rounded-[8px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]">
+                                                <SelectValue placeholder="Select" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="left">Left</SelectItem>
+                                                <SelectItem value="right">Right</SelectItem>
+                                                <SelectItem value="both">Both</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                    <FormMessage className="text-red-500" />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="gender"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-base font-normal leading-[150%] text-[#131313]">
+                                       Position (select 2 positions)
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
+                                            <SelectTrigger className="w-full h-[48px] py-2 px-3 rounded-[8px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]">
+                                                <SelectValue placeholder="Select" />
+                                            </SelectTrigger>
+                                            <SelectContent className="overflow-y-auto h-[200px]">
+                                                <SelectItem value="gk">GK</SelectItem>
+                                                <SelectItem value="rb">RB</SelectItem>
+                                                <SelectItem value="lb">LB</SelectItem>
+                                                <SelectItem value="cb">CB</SelectItem>
+                                                <SelectItem value="defensive midfielder">Defensive Midfielder</SelectItem>
+                                                <SelectItem value="offensive midfielder">Offensive Midfielder</SelectItem>
+                                                <SelectItem value="right winger">Right Winger</SelectItem>
+                                                <SelectItem value="left winger">Left Winger</SelectItem>
+                                                <SelectItem value="striker">Striker</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                    <FormMessage className="text-red-500" />
+                                </FormItem>
+                            )}
+                        />
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
                             <FormField
                                 control={form.control}
                                 name="agencyName"
