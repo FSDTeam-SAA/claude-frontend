@@ -11,7 +11,7 @@ const ProfileContainer = () => {
                     <ProfilePicture />
                         <VideoUpload />
                 </div>
-                <div className="md:col-span-2 border-2 border-red-500">
+                <div className="md:col-span-2">
                     <h1 className="text-2xl md:text-[28px] lg:text-[32px] text-[#131313] leadimg-[120%] font-normal">Profile Setting</h1>
                     <PersonalInformationForm/>
                 </div>

@@ -63,7 +63,7 @@ export type UserProfile = {
   gpa: string;
   hight: string;
   inSchoolOrCollege: boolean;
-  instituteName: string;
+  institute: string;
   phone: string;
   satAct: string;
   weight: string;

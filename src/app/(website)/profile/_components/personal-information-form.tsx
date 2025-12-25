@@ -66,7 +66,7 @@ const formSchema = z.object({
         message: "Current Club must be at least 2 characters.",
     }),
     dob: z.date().nullable(),
-    placeOfBirth: z.string().min(2, {
+    birthdayPlace: z.string().min(2, {
         message: "Place Of Birth must be at least 2 characters.",
     }),
     gender: z.string().min(1, {
@@ -90,17 +90,17 @@ const formSchema = z.object({
     inSchoolOrCollege: z.enum(["yes", "no"], { message: "Please select if you are in school/college." }),
 
     // These will be required only if inSchoolOrCollege === "yes"
-    instituteName: z.string().optional(),
+    institute: z.string().optional(),
     gpa: z.string().optional(),
 }).refine((data) => {
     if (data.inSchoolOrCollege === "yes") {
-        if (!data.instituteName || data.instituteName.trim().length < 2) return false;
+        if (!data.institute || data.institute.trim().length < 2) return false;
         if (!data.gpa || data.gpa.trim().length === 0) return false;
     }
     return true;
 }, {
     message: "Institute Name and GPA are required if you are in school/college.",
-    path: ["instituteName"], // Shows error under Institute Name field
+    path: ["institute"], // Shows error under Institute Name field
 }).refine((data) => {
     if (data.inSchoolOrCollege === "yes") {
         if (!data.gpa || data.gpa.trim().length === 0) return false;
@@ -124,11 +124,11 @@ const PersonalInformationForm = () => {
             email: "",
             hight: "",
             dob: null,
-            placeOfBirth: "",
+            birthdayPlace: "",
             gender: "",
             weight: "",
             inSchoolOrCollege: undefined,
-            instituteName: "",
+            institute: "",
             gpa: "",
             agencyName: "",
             social_media: "",
@@ -156,6 +156,7 @@ const PersonalInformationForm = () => {
             return res.json();
         },
         enabled: !!token,
+         staleTime: 0,
     })
 
     console.log("User Profile Data:", data);
@@ -181,7 +182,7 @@ const PersonalInformationForm = () => {
                 category: data?.category || "",
                 foot: data?.foot || "",
                 position: data?.position || "",
-                placeOfBirth: data?.birthdayPlace || "",
+                birthdayPlace: data?.birthdayPlace || "",
                 dob: data?.dob ? new Date(data?.dob) : null,
 
                 // Education fields
@@ -192,14 +193,14 @@ const PersonalInformationForm = () => {
                             ? "no"
                             : undefined,
 
-                instituteName: data?.instituteName || "",
+                institute: data?.institute || "",
                 gpa: data?.gpa || "",
             });
         }
     }, [form, data]);
 
 
-    const { mutate, isPending } = useMutation({
+    const { mutateAsync, isPending } = useMutation({
         mutationKey: ["update-profile"],
         mutationFn: async (values: z.infer<typeof formSchema>) => {
             const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/profile`, {
@@ -212,25 +213,34 @@ const PersonalInformationForm = () => {
             })
             return res.json()
         },
-        onSuccess: (data) => {
+        onSuccess: async (data) => {
             if (!data?.success) {
                 toast.error(data?.message || "Something went wrong");
                 return;
             }
             toast.success(data?.message || "User Profile updated successfully")
-            queryClient.invalidateQueries({ queryKey: ["user-profile"] })
-            form.reset();
+           await queryClient.invalidateQueries({ queryKey: ["user-profile"] })
         },
     })
 
 
 
     // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
+    // function onSubmit(values: z.infer<typeof formSchema>) {
+    //     console.log(values)
 
-        mutate(values)
-    }
+    //     mutate(values)
+    // }
+
+   async function onSubmit(values: z.infer<typeof formSchema>) {
+  try {
+    await mutateAsync(values)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+
 
     return (
         <div>
@@ -381,7 +391,7 @@ const PersonalInformationForm = () => {
 
                             <FormField
                                 control={form.control}
-                                name="placeOfBirth"
+                                name="birthdayPlace"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-base font-normal leading-[150%] text-[#131313]">Place of birth</FormLabel>
@@ -626,7 +636,7 @@ const PersonalInformationForm = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
                                 <FormField
                                     control={form.control}
-                                    name="instituteName"
+                                    name="institute"
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel className="text-base font-normal leading-[150%] text-[#131313]">
