@@ -46,17 +46,17 @@ const TeamsPlayer = () => {
                                 col-span-1 md:col-span-2
                                 ${isFourth ? "md:col-start-2" : ""}
                                 ${isFifth ? "md:col-start-4" : ""}
-                                border border-[#4F6EF7] rounded-[14px] overflow-hidden
+                                border-[1.5px] border-[#1E3A8A] rounded-[16px] overflow-hidden
                                 `}
                             >
                                 {/* Header */}
-                                <div className="bg-[#006400] py-3 text-center text-white font-medium">
+                                <div className="bg-[#006600] rounded-t-[16px] text-lg md:text-xl lg:text-2xl font-normal text-white leading-[120%] text-center py-6">
                                     {item.game} games
                                 </div>
 
                                 {/* Body */}
                                 <div className="p-6 text-center">
-                                    <h4 className="text-3xl font-bold text-[#131313]">
+                                    <h4 className="text-2xl md:text-3xl lg:text-[40px] text-[#131313] text-center leading-[120%] font-bold pb-5">
                                         ${item.price}
                                         <span className="text-sm font-normal"> / player</span>
                                     </h4>
@@ -66,9 +66,7 @@ const TeamsPlayer = () => {
                                         Data report & Highlights
                                     </p>
 
-                                    <button className="w-full bg-[#4A4A4A] text-white py-2 rounded-md text-sm">
-                                        Continue
-                                    </button>
+                                    <button className='w-full h-[51px] bg-[#424242] rounded-[8px] text-base text-white leading-[120%] font-medium '>Continue</button>
                                 </div>
                             </div>
                         );
