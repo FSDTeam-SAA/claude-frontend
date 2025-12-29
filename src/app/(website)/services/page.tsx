@@ -1,8 +1,13 @@
 import React from 'react'
+import IndividualPlayer from './_components/individual-player'
+import TeamsPlayer from './_components/teams-player'
 
 const ServicesPage = () => {
   return (
-    <div>ServicesPage</div>
+    <div>
+      <IndividualPlayer/>
+      <TeamsPlayer/>
+    </div>
   )
 }
 
