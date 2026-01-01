@@ -10,18 +10,16 @@ const WhyWeAreUnique = () => {
                     <div className="md:col-span-1">
                         <h3 className='text-3xl md:text-4xl lg:text-[48px] text-[#131313] font-normal leading-[120%]'>Why We&lsquo;re Unique</h3>
                         <p className='text-lg md:text-xl lg:text-2xl text-[#131313] font-normal leading-[120%] py-4 md:py-5'>There is no global, <span className="text-primary">centralized data platform</span> where amateur players can:</p>
-                         <ul className='py-6 md:py-10 lg:py-12 list-disc list-inside'>
+                         <ul className='list-disc list-inside'>
                         <li className='text-base font-normal leading-[150%] text-[#616161]'>Access verified performance data</li>
                         <li className='text-base font-normal leading-[150%] text-[#616161] py-4 md:py-5'>Receive objective ratings</li>
                         <li className='text-base font-normal leading-[150%] text-[#616161] pb-4 md:pb-5'>Track their career progression and transfer history</li>
                         <li className='text-base font-normal leading-[150%] text-[#616161]'>Build true proof of performance </li>
                     </ul>
-                        <p className='text-sm md:text-base text-[#424242] font-normal leading-[150%]'>Analytic Soccer is the first platform to deliver all of this, giving amateur players the same digital tools, visibility and data identity used by professionals players.</p>
+                        <p className='text-sm md:text-base text-[#424242] font-normal leading-[150%] pt-4 md:pt-5 lg:pt-6'>Analytic Soccer is the first platform to deliver all of this, giving amateur players the same digital tools, visibility and data identity used by professionals players.</p>
                     </div>
-                    <div className="md:col-span-1">
-                        <h3 className='text-3xl md:text-4xl lg:text-[48px] text-[#131313] font-normal leading-[120%] text-center'>Why We&lsquo;re Unique</h3>
-                        <p className='text-sm md:text-base text-[#616161] font-normal leading-[120%] py-4 md:py-5 text-center'>Analytic Soccer is the first platform to deliver all of this, giving amateur players the same digital tools and data identity that professionals use.</p>
-                        <p className='text-sm md:text-base text-[#131313] font-normal leading-[150%]  text-center'>There is no global, centralized data platform where amateur players can :</p>
+                    <div className="md:col-span-1 h-full w-full flex justify-center items-center">
+                      <Image src="/assets/images/why-unique.jpg" alt="why we unique" width={700} height={700} className="w-full h-[346px] object-cover rounded-[16px]"/>
                     </div>
                 </div>
 
@@ -66,7 +64,7 @@ const WhyWeAreUnique = () => {
                         <Image src="/assets/images/why-we-are-unique.jpg" alt="why-we-uniqe" width={500} height={500} className="object-cover rounded-[8px] h-[350px] md:h-[400px] lg:h-[460px] w-full" />
                     </div>
 
-                    <div className='md:col-span-3 h-full flex flex-col justify-center border-2 border-red-500'>
+                    <div className='md:col-span-3 h-full flex flex-col justify-center'>
                         <h4 className='text-2xl md:text-3xl lg:text-4xl text-[#131313] font-normal leading-[120%]'>Why you need verified data from us ?</h4>
                         <p className='text-base md:text-lg text-[#131313] leading-[120%] font-normal py-4 md:py-5'>Key Advantages</p>
                         <ul>

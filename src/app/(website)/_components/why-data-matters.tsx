@@ -135,13 +135,13 @@ const WhyDataMatters = () => {
             <div key={index} className="relative">
               {/* Vertical Divider */}
               {index !== 0 && (
-                <div className="hidden md:block absolute -left-6 top-0 h-full w-[5px] bg-[#131313]" />
+                <div className="hidden md:block absolute -left-4 top-0 h-full w-[4px] bg-[#131313]" />
               )}
                {index === 0 && (
-                <div className="hidden md:block absolute -left-6 top-0 h-full w-[5px] bg-[#131313]" />
+                <div className="hidden md:block absolute -left-4 top-0 h-full w-[4px] bg-[#131313]" />
               )}
 
-              <h4 className="text-xl md:text-2xl lg:text-[32px] font-normal leading-[120%] text-black underline pb-6 md:pb-7 lg:pb-8">
+              <h4 className="text-xl md:text-2xl lg:text-[32px] font-normal leading-[120%] text-black underline underline-offset-8 decoration-4 pb-6 md:pb-7 lg:pb-8">
                 {column.heading}
               </h4>
 

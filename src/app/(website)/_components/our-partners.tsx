@@ -5,7 +5,7 @@ import {
     CarouselContent,
     CarouselItem,
 } from "@/components/ui/carousel"
-import { Star } from "lucide-react";
+// import { Star } from "lucide-react";
 
 import Image from 'next/image'
 import Autoplay from "embla-carousel-autoplay";
@@ -27,9 +27,9 @@ const OurPartners = () => {
     ]
     return (
         <div className="py-6 md:py-10 lg:py-16">
-            <div className="container">
+            <div className="container pt-4">
                 <h4 className='text-2xl md:text-4xl lg:text-[48px] text-center font-normal leading-[120%] text-[#131313]'>Our Partners</h4>
-                <p className='text-sm lg:text-base text-[#616161] leading-[150%] text-center font-nnormal pt-4'>Don&lsquo;t just take our word for it. Here&lsquo;s what real customers have to say about <br /> their AutoIntel inspection experience.</p>
+                {/* <p className='text-sm lg:text-base text-[#616161] leading-[150%] text-center font-nnormal pt-4'>Don&lsquo;t just take our word for it. Here&lsquo;s what real customers have to say about <br /> their AutoIntel inspection experience.</p> */}
 
                 <div className="py-6 md:py-10 lg:py-14">
                     <Carousel plugins={[
@@ -55,7 +55,7 @@ const OurPartners = () => {
                 </div>
 
                 {/* ratings  */}
-                <div className="bg-[#424242] rounded-[8px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
+                {/* <div className="bg-[#424242] rounded-[8px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
                     <div className="md:col-span-1">
                         <h4 className="text-2xl md:text-[28px] lg:text-[32px] font-normal text-white leading-[120$] text-center">1000+</h4>
                         <p className="text-base lg:text-lg font-normal text-[#E7E7E7] leading-[120%] text-center pt-2">Happy Customers</p>
@@ -72,7 +72,7 @@ const OurPartners = () => {
                         <h4 className="text-2xl md:text-[28px] lg:text-[32px] font-normal text-white leading-[120$] text-center">1000%</h4>
                         <p className="text-base lg:text-lg font-normal text-[#E7E7E7] leading-[120%] text-center pt-2">Report Analytics</p>
                     </div>
-                </div>
+                </div> */}
             </div>
 
         </div>

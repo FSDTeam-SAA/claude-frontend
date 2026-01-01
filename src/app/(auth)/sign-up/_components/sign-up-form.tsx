@@ -59,7 +59,7 @@ const SignupForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-       role: "player",
+      role: "player",
       firstName: "",
       lastName: "",
       email: "",
@@ -82,8 +82,8 @@ const SignupForm = () => {
       })
       return res.json();
     },
-    onSuccess: (data)=>{
-      if(!data?.success){
+    onSuccess: (data) => {
+      if (!data?.success) {
         toast?.error(data?.message || "Something went wrong");
         return
       }
@@ -118,48 +118,46 @@ const SignupForm = () => {
             className="space-y-4 pt-5 md:pt- lg:pt-8"
           >
             <FormField
-  control={form.control}
-  name="role"
-  render={({ field }) => (
-    <FormItem>
-      <FormLabel className="text-base font-medium text-[#424242]">
-        Select User Type <sup className="text-[#8C311E]">*</sup>
-      </FormLabel>
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-medium text-[#424242]">
+                    Select User Type <sup className="text-[#8C311E]">*</sup>
+                  </FormLabel>
 
-      <FormControl>
-        <div className="flex items-center bg-[#E8F3E6] rounded-full p-1">
-          <button
-            type="button"
-            onClick={() => field.onChange("player")}
-            className={`flex-1 text-sm font-medium py-2 rounded-full transition-all
-              ${
-                field.value === "player"
-                  ? "bg-primary text-white"
-                  : "text-[#2A2A2A]"
-              }`}
-          >
-            Player
-          </button>
+                  <FormControl>
+                    <div className="flex items-center bg-[#E8F3E6] rounded-full p-1">
+                      <button
+                        type="button"
+                        onClick={() => field.onChange("player")}
+                        className={`flex-1 text-sm font-medium py-2 rounded-full transition-all
+              ${field.value === "player"
+                            ? "bg-primary text-white"
+                            : "text-[#2A2A2A]"
+                          }`}
+                      >
+                        Player
+                      </button>
 
-          <button
-            type="button"
-            onClick={() => field.onChange("gk")}
-            className={`flex-1 text-sm font-medium py-2 rounded-full transition-all
-              ${
-                field.value === "gk"
-                  ? "bg-primary text-white"
-                  : "text-[#2A2A2A]"
-              }`}
-          >
-            Goal Keeper
-          </button>
-        </div>
-      </FormControl>
+                      <button
+                        type="button"
+                        onClick={() => field.onChange("gk")}
+                        className={`flex-1 text-sm font-medium py-2 rounded-full transition-all
+              ${field.value === "gk"
+                            ? "bg-primary text-white"
+                            : "text-[#2A2A2A]"
+                          }`}
+                      >
+                        Goal Keeper
+                      </button>
+                    </div>
+                  </FormControl>
 
-      <FormMessage className="text-red-500" />
-    </FormItem>
-  )}
-/>
+                  <FormMessage className="text-red-500" />
+                </FormItem>
+              )}
+            />
 
             <FormField
               control={form.control}
