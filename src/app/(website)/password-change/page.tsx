@@ -1,8 +1,11 @@
 import React from 'react'
+import PasswordChangeForm from './_components/password-change-form'
 
 const PasswordChangePage = () => {
   return (
-    <div>Password Change Page</div>
+    <div className="w-full h-screen flex items-center justify-center">
+      <PasswordChangeForm/>
+    </div>
   )
 }
 
