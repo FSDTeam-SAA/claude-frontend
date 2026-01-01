@@ -1,64 +1,87 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+
+type NewsletterResponse = {
+  success: boolean;
+  message?: string;
+};
 
 export default function NewsletterSubscribe() {
-    const [email, setEmail] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [message, setMessage] = useState('');
+  const [email, setEmail] = useState("");
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["newsletter"],
+    mutationFn: async (payload: { email: string }): Promise<NewsletterResponse> => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/newsletter`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
 
-        if (!email) return;
-        console.log("User submitted email:", email);
+      if (!res.ok) {
+        throw new Error("Failed to subscribe");
+      }
 
-        setIsLoading(true);
-        // Simulate API call
-        setTimeout(() => {
-            setMessage('Thank you for subscribing! 🎉');
-            setEmail('');
-            setIsLoading(false);
-            setTimeout(() => setMessage(''), 4000);
-        }, 1000);
-    };
+      return res.json();
+    },
 
-    return (
-        <div className="pt-4">
-            <form onSubmit={handleSubmit} >
+    onSuccess: (data) => {
+      if (!data?.success) {
+        toast.error(data?.message || "Something went wrong!");
+        return;
+      }
 
-                <div className="flex">
-                    <Input
-                        type="email"
-                        placeholder="Enter your Email..."
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                        className="h-10 border-y border-l border-primary rounded-l-[8px] outline-none ring-0"
-                        disabled={isLoading}
-                    />
-                    <Button
-                        type="submit"
-                        disabled={isLoading}
-                        className="h-10 bg-primary text-white font-bold leading-[120%] rounded-r-[8px]"
-                    >
-                        {isLoading ? (
-                            'Subscribing...'
-                        ) : (
-                            <>
-                                Subscribe
-                            </>
-                        )}
-                    </Button>
-                </div>
+      toast.success(data?.message || "Newsletter subscribed successfully");
+      setEmail("");
+    },
 
-            </form>
+    onError: () => {
+      toast.error("Unable to subscribe. Please try again.");
+    },
+  });
 
-            {message && (
-                <p className="text-sm text-green-600 font-medium animate-pulse">{message}</p>
-            )}
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail) return;
+
+    mutate({ email: trimmedEmail });
+  };
+
+  return (
+    <div className="pt-4">
+      <form onSubmit={handleSubmit}>
+        <div className="flex">
+          <Input
+            type="email"
+            placeholder="Enter your Email..."
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            disabled={isPending}
+            className="h-10 border-y border-l border-primary rounded-l-[8px] outline-none ring-0"
+          />
+
+          <Button
+            type="submit"
+            disabled={isPending}
+            className="h-10 bg-primary text-white font-bold leading-[120%] rounded-r-[8px]"
+          >
+            {isPending ? "Subscribing..." : "Subscribe"}
+          </Button>
         </div>
-    );
+      </form>
+    </div>
+  );
 }
