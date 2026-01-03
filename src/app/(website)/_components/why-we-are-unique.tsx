@@ -9,7 +9,7 @@ const WhyWeAreUnique = () => {
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
                     <div className="md:col-span-1">
                         <h3 className='text-2xl md:text-3xl lg:text-4xl text-[#131313] font-normal leading-[120%]'>Why We&lsquo;re Unique</h3>
-                        <p className='text-lg md:text-xl lg:text-[22px] text-[#131313] font-normal leading-[120%] py-4 md:py-5'>There is no global, <span className="text-primary">centralized data platform</span> where amateur players can :</p>
+                        <p className='text-lg md:text-xl lg:text-[22px] text-[#131313] font-normal leading-[120%] py-4 md:py-5'>There is no global, centralized data platform where amateur players can :</p>
                          <ul className='list-disc list-inside'>
                         <li className='text-base font-normal leading-[150%] text-[#616161]'>Access verified performance data</li>
                         <li className='text-base font-normal leading-[150%] text-[#616161] py-4 md:py-5'>Receive objective ratings</li>
@@ -25,7 +25,7 @@ const WhyWeAreUnique = () => {
 
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-6 md:py-10 lg:py-12'>
 
-                    <div className='md:col-span-1 flex flex-col items-center rounded-[16px] p-4 border border-[#B6B6B6)] group hover:bg-primary transition'>
+                    <div className='md:col-span-1 flex flex-col items-center rounded-[16px] p-4 border border-[#B6B6B6)] group hover:bg-green-600 transition'>
                         <div className='flex flex-col items-start'>
                             <div className='bg-[#E6F4E6] rounded-[8px] p-5 inline-flex' >
 
@@ -35,7 +35,7 @@ const WhyWeAreUnique = () => {
                             <p className='text-sm font-normal text-[#616161] group-hover:text-white leading-[150%]'>Every stat, every match, every achievement verified and recorded in one place. No morescattered records or lost history. </p>
                         </div>
                     </div>
-                    <div className='md:col-span-1 flex flex-col items-center rounded-[16px] p-4 border border-[#B6B6B6)] group hover:bg-primary transition'>
+                    <div className='md:col-span-1 flex flex-col items-center rounded-[16px] p-4 border border-[#B6B6B6)] group hover:bg-green-600 transition'>
                         <div className='flex flex-col items-start'>
                             <div className='bg-[#E6F4E6] rounded-[8px] p-5 inline-flex' >
 
@@ -45,7 +45,7 @@ const WhyWeAreUnique = () => {
                             <p className='text-sm font-normal text-[#616161] group-hover:text-white leading-[150%]'>Get rated based on real performance metrics, not opinions. Fair, transparent, and comparable across regions</p>
                         </div>
                     </div>
-                    <div className='md:col-span-1 flex flex-col items-center rounded-[16px] p-4 border border-[#B6B6B6)] group hover:bg-primary transition'>
+                    <div className='md:col-span-1 flex flex-col items-center rounded-[16px] p-4 border border-[#B6B6B6)] group hover:bg-green-600 transition'>
                         <div className='flex flex-col items-start'>
                             <div className='bg-[#E6F4E6] rounded-[8px] p-5 inline-flex' >
 

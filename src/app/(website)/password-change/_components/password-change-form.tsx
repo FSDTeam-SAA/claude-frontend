@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
 import {
     Form,
     FormControl,
@@ -16,6 +17,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
 import { Eye, EyeOff } from "lucide-react"
+import { useSession } from "next-auth/react"
+import { useMutation } from "@tanstack/react-query"
 
 const formSchema = z
   .object({
@@ -42,8 +45,11 @@ const formSchema = z
 
 
 const PasswordChangeForm = () => {
-    const [showPassword, setShowPassword] = useState(false);
+    const session = useSession();
+    const token = (session?.data?.user as {accessToken:string})?.accessToken;
+    const [showOldPassword, setShowOldPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -55,14 +61,48 @@ const PasswordChangeForm = () => {
 
     
 
+      const { mutate, isPending } = useMutation({
+        mutationKey: ["change-password"],
+        mutationFn: async (payload: { oldPassword: string, newPassword: string }) => {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/change-password`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization : `Bearer ${token}`
+                },
+                body: JSON.stringify(payload)
+            })
+            return res.json()
+        },
+        onSuccess: (data) => {
+            if (!data?.success) {
+                toast.error(data?.message || "Something went wrong!");
+                return;
+            }
+            toast.success(data?.message || "password changed Successfully");
+            form.reset()
+        }
+    })
+
+
     // 2. Define a submit handler.
     function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values)
+        if (!token) {
+            toast.error("Invalid or expired token")
+            return
+        }
+
+        mutate({
+            oldPassword: values.currentPassword,
+            newPassword: values.newPassword
+        })
     }
     return (
-        <div className="container">
-            <Form {...form} >
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full md:w-2/3">
+        <div className="container flex items-center justify-center">
+           <div className=" w-full md:w-2/3">
+             <Form {...form} >
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                      <FormField
                         control={form.control}
                         name="currentPassword"
@@ -71,8 +111,8 @@ const PasswordChangeForm = () => {
                                 <FormLabel className="text-lg font-semibold text-[#333333] leading-[120%]">Current Password</FormLabel>
                                 <FormControl>
                                     <div className="relative">
-                                        <Input type={showPassword ? "text" : "password"} className="w-full h-[52px] rounded-[10px] border border-[#C0C3C1] text-[#333333] placeholder:text-[#8E938F] font-medium leading-[120%] text-base" placeholder="Enter Password" {...field} />
-                                        <button type="button" className="absolute right-4 top-3">{showPassword ? <Eye onClick={() => setShowPassword(!showPassword)} /> : <EyeOff onClick={() => setShowPassword(!showPassword)} />}</button>
+                                        <Input type={showOldPassword ? "text" : "password"} className="w-full h-[52px] rounded-[10px] border border-[#C0C3C1] text-[#333333] placeholder:text-[#8E938F] font-medium leading-[120%] text-base" placeholder="Enter Password" {...field} />
+                                        <button type="button" className="absolute right-4 top-3">{showOldPassword ? <Eye onClick={() => setShowOldPassword(!showOldPassword)} /> : <EyeOff onClick={() => setShowOldPassword(!showOldPassword)} />}</button>
                                     </div>
                                 </FormControl>
                                 <FormMessage className="text-red-500" />
@@ -88,8 +128,8 @@ const PasswordChangeForm = () => {
                                 <FormLabel className="text-lg font-semibold text-[#333333] leading-[120%]">New Password</FormLabel>
                                 <FormControl>
                                     <div className="relative">
-                                        <Input type={showPassword ? "text" : "password"} className="w-full h-[52px] rounded-[10px] border border-[#C0C3C1] text-[#333333] placeholder:text-[#8E938F] font-medium leading-[120%] text-base" placeholder="Enter Password" {...field} />
-                                        <button type="button" className="absolute right-4 top-3">{showPassword ? <Eye onClick={() => setShowPassword(!showPassword)} /> : <EyeOff onClick={() => setShowPassword(!showPassword)} />}</button>
+                                        <Input type={showNewPassword ? "text" : "password"} className="w-full h-[52px] rounded-[10px] border border-[#C0C3C1] text-[#333333] placeholder:text-[#8E938F] font-medium leading-[120%] text-base" placeholder="Enter Password" {...field} />
+                                        <button type="button" className="absolute right-4 top-3">{showNewPassword ? <Eye onClick={() => setShowNewPassword(!showNewPassword)} /> : <EyeOff onClick={() => setShowNewPassword(!showNewPassword)} />}</button>
                                     </div>
                                 </FormControl>
                                 <FormMessage className="text-red-500" />
@@ -114,9 +154,12 @@ const PasswordChangeForm = () => {
                         )}
                     />
                   </div>
-                    <Button type="submit">Submit</Button>
+                    <div className="w-full flex items-center justify-end">
+                            <Button className="h-[48px] px-10 py-2 rounded-[10px] text-base font-semibold text-white leading-[120%]" disabled={isPending} type="submit">{isPending ? "changing..." : "Change Password"}</Button>
+                        </div>
                 </form>
             </Form>
+           </div>
         </div>
     )
 }

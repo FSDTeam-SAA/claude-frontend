@@ -88,11 +88,11 @@ const formSchema = z.object({
     institute: z.string().optional(),
     gpa: z.string().optional(),
 }).refine((data) => {
-  if (data.inSchoolOrCollege === "yes") {
-    if (!data.institute || data.institute.trim().length < 2) return false
-    if (!data.gpa || data.gpa.trim().length === 0) return false
-  }
-  return true
+    if (data.inSchoolOrCollege === "yes") {
+        if (!data.institute || data.institute.trim().length < 2) return false
+        if (!data.gpa || data.gpa.trim().length === 0) return false
+    }
+    return true
 }, { message: "Institute Name and GPA required", path: ["institute"] })
 
 
@@ -118,7 +118,7 @@ const formSchema = z.object({
 
 
 interface PersonalInformationFormProps {
-  user?: User
+    user?: User
 }
 
 // const PersonalInformationForm = () => {
@@ -129,52 +129,52 @@ const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ user 
 
 
     const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      firstName: user?.firstName || "",
-      lastName: user?.lastName || "",
-      email: user?.email || "",
-      gender: user?.gender || "",
-      hight: user?.hight || "",
-      weight: user?.weight || "",
-      agencyName: user?.agent || "",
-      social_media: Array.isArray(user?.socialMedia) ? user.socialMedia.join(", ") : "",
-      citizenship: user?.citizenship || "",
-      currentClub: user?.currentClub || "",
-      league: user?.league || "",
-      category: user?.category || "",
-      foot: user?.foot || "",
-      position: user?.position || "",
-      birthdayPlace: user?.birthdayPlace || "",
-      dob: user?.dob ? new Date(user.dob) : null,
-      inSchoolOrCollege: user?.inSchoolOrCollege === true ? "yes" : user?.inSchoolOrCollege === false ? "no" : undefined,
-      institute: user?.institute || "",
-      gpa: user?.gpa || "",
-    }
-  })
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            firstName: user?.firstName || "",
+            lastName: user?.lastName || "",
+            email: user?.email || "",
+            gender: user?.gender || "",
+            hight: user?.hight || "",
+            weight: user?.weight || "",
+            agencyName: user?.agent || "",
+            social_media: Array.isArray(user?.socialMedia) ? user.socialMedia.join(", ") : "",
+            citizenship: user?.citizenship || "",
+            currentClub: user?.currentClub || "",
+            league: user?.league || "",
+            category: user?.category || "",
+            foot: user?.foot || "",
+            position: user?.position || "",
+            birthdayPlace: user?.birthdayPlace || "",
+            dob: user?.dob ? new Date(user.dob) : null,
+            inSchoolOrCollege: user?.inSchoolOrCollege === true ? "yes" : user?.inSchoolOrCollege === false ? "no" : undefined,
+            institute: user?.institute || "",
+            gpa: user?.gpa || "",
+        }
+    })
 
-  const inSchoolOrCollege = form.watch("inSchoolOrCollege")
+    const inSchoolOrCollege = form.watch("inSchoolOrCollege")
 
-  const { mutate, isPending } = useMutation({
-    mutationKey: ["update-profile"],
-    mutationFn: async (values: z.infer<typeof formSchema>) => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/profile`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify(values)
-      })
-      return res.json()
-    },
-    onSuccess: async (data) => {
-      if (!data?.success) {
-        toast.error(data?.message || "Something went wrong")
-        return
-      }
-      toast.success(data?.message || "Profile updated successfully")
-        await queryClient.invalidateQueries({ queryKey: ["user-profile"] })
-    },
-    onError: () => toast.error("Update failed"),
-  })
+    const { mutate, isPending } = useMutation({
+        mutationKey: ["update-profile"],
+        mutationFn: async (values: z.infer<typeof formSchema>) => {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/profile`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+                body: JSON.stringify(values)
+            })
+            return res.json()
+        },
+        onSuccess: async (data) => {
+            if (!data?.success) {
+                toast.error(data?.message || "Something went wrong")
+                return
+            }
+            toast.success(data?.message || "Profile updated successfully")
+            await queryClient.invalidateQueries({ queryKey: ["user-profile"] })
+        },
+        onError: () => toast.error("Update failed"),
+    })
 
     // const form = useForm<z.infer<typeof formSchema>>({
     //     resolver: zodResolver(formSchema),
@@ -535,7 +535,7 @@ const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ user 
                                                 </SelectTrigger>
                                                 <SelectContent className="h-[200px] overflow-y-auto">
                                                     <SelectItem value="semi-professional">Semi Professional</SelectItem>
-                                                     <SelectItem value="adult">Adult</SelectItem>
+                                                    <SelectItem value="adult">Adult</SelectItem>
                                                     <SelectItem value="U9">U9</SelectItem>
                                                     <SelectItem value="U10">U10</SelectItem>
                                                     <SelectItem value="U11">U11</SelectItem>
@@ -591,7 +591,7 @@ const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ user 
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-base font-normal leading-[150%] text-[#131313]">
-                                            Position (select 2 positions)
+                                            Position (select 1 position)
                                         </FormLabel>
                                         <FormControl>
                                             <Select
@@ -695,11 +695,24 @@ const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ user 
                                                 Institute Name
                                             </FormLabel>
                                             <FormControl>
-                                                <Input
+                                                <Select
+                                                    onValueChange={field.onChange}
+                                                    value={field.value}
+                                                >
+                                                    <SelectTrigger className="w-full h-[48px] py-2 px-3 rounded-[8px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]">
+                                                        <SelectValue placeholder="Select" />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectItem value="middle school">Middle School</SelectItem>
+                                                        <SelectItem value="high school">High School</SelectItem>
+                                                        <SelectItem value="college or university">College / University</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                                {/* <Input
                                                     placeholder="Write here"
                                                     {...field}
                                                     className="w-full h-[47px] border border-[#645949] rounded-[8px] text-[#131313] placeholder:text-[#929292]"
-                                                />
+                                                /> */}
                                             </FormControl>
                                             <FormMessage className="text-red-500" />
                                         </FormItem>
