@@ -9,14 +9,14 @@ import RatingCard from './rating-card';
 import PlayerInfoSkeleton from './profile-info-skeleton';
 import ErrorContainer from '@/components/shared/ErrorContainer/ErrorContainer';
 
-const PlayerInfo = () => {
+const PlayerInfo = ({id}:{id:string}) => {
     const session = useSession();
     const token = (session?.data?.user as { accessToken: string })?.accessToken;
 
     const { data, isLoading, isError, error } = useQuery<UserProfileApiResponse>({
-        queryKey: ["profile-info"],
+        queryKey: ["profile-info", id],
         queryFn: async () => {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/profile`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${id}`, {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -41,7 +41,7 @@ const PlayerInfo = () => {
 
     const personalInfo = data?.data;
     return (
-        <div className='pt-7'>
+        <div className='pt-7 pb-40'>
             <div className="container grid grid-cols-1 md:gris-cols-2 lg:grid-cols-5 gap-6 bg-white rounded-[16px] p-6 shadow-[0px_4px_24px_0px_#00000014
 ]">
                 <div className="md:col-span-1">

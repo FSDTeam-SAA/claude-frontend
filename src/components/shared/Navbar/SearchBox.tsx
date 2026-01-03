@@ -11,8 +11,9 @@ import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 
 interface User {
-  id: string
-  name: string
+  _id: string
+  firstName: string
+  lastName: string
   email?: string
   profileImage?: string
 }
@@ -178,11 +179,11 @@ const SearchBox = ({ baseUrl }: SearchBoxProps) => {
             </div>
           ) : error ? (
             <div className="p-4 text-center text-sm text-red-500">{error}</div>
-          ) : displayUsers.length > 0 ? (
-            displayUsers.map((user) => (
+          ) : displayUsers?.length > 0 ? (
+            displayUsers?.map((user) => (
               <Link
-                key={user.id}
-                href={`/profile/${user.id}`}
+                key={user._id}
+                href={`/player-profile/${user?._id}`}
                 onClick={() => {
                   setIsOpen(false)
                   setSearchTerm("")
@@ -191,15 +192,15 @@ const SearchBox = ({ baseUrl }: SearchBoxProps) => {
               >
                 <Image
                   src={user.profileImage || "/assets/images/no-user.jpg"}
-                  alt={user.name}
+                  alt={user.firstName}
                   width={40}
                   height={40}
                   className="rounded-full object-cover border"
                 />
                 <div>
-                  <p className="text-sm font-medium">{user.name}</p>
+                  <p className="text-sm font-medium">{user?.firstName} {user?.lastName}</p>
                   {user.email && (
-                    <p className="text-xs text-gray-500">{user.email}</p>
+                    <p className="text-xs text-gray-700">{user.email}</p>
                   )}
                 </div>
               </Link>
