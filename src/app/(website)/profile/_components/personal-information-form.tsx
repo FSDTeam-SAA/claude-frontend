@@ -29,13 +29,12 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { useSession } from "next-auth/react"
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { UserProfile } from "./user-data-type"
-import { useEffect } from "react"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
+import { User } from "./user-data-type"
 
 const formSchema = z.object({
     firstName: z.string().min(2, {
@@ -85,160 +84,212 @@ const formSchema = z.object({
     position: z.string().min(1, {
         message: "Position is required.",
     }),
-
-    // inSchoolOrCollege: z.enum(["yes", "no"], { message: "Please select an option." }),
     inSchoolOrCollege: z.enum(["yes", "no"], { message: "Please select if you are in school/college." }),
-
-    // These will be required only if inSchoolOrCollege === "yes"
     institute: z.string().optional(),
     gpa: z.string().optional(),
 }).refine((data) => {
-    if (data.inSchoolOrCollege === "yes") {
-        if (!data.institute || data.institute.trim().length < 2) return false;
-        if (!data.gpa || data.gpa.trim().length === 0) return false;
-    }
-    return true;
-}, {
-    message: "Institute Name and GPA are required if you are in school/college.",
-    path: ["institute"], // Shows error under Institute Name field
-}).refine((data) => {
-    if (data.inSchoolOrCollege === "yes") {
-        if (!data.gpa || data.gpa.trim().length === 0) return false;
-    }
-    return true;
-}, {
-    message: "GPA is required if you are in school/college.",
-    path: ["gpa"], // Ensures error also appears under GPA if needed
-})
+  if (data.inSchoolOrCollege === "yes") {
+    if (!data.institute || data.institute.trim().length < 2) return false
+    if (!data.gpa || data.gpa.trim().length === 0) return false
+  }
+  return true
+}, { message: "Institute Name and GPA required", path: ["institute"] })
 
-const PersonalInformationForm = () => {
+
+
+// .refine((data) => {
+//     if (data.inSchoolOrCollege === "yes") {
+//         if (!data.institute || data.institute.trim().length < 2) return false;
+//         if (!data.gpa || data.gpa.trim().length === 0) return false;
+//     }
+//     return true;
+// }, {
+//     message: "Institute Name and GPA are required if you are in school/college.",
+//     path: ["institute"], // Shows error under Institute Name field
+// }).refine((data) => {
+//     if (data.inSchoolOrCollege === "yes") {
+//         if (!data.gpa || data.gpa.trim().length === 0) return false;
+//     }
+//     return true;
+// }, {
+//     message: "GPA is required if you are in school/college.",
+//     path: ["gpa"], // Ensures error also appears under GPA if needed
+// })
+
+
+interface PersonalInformationFormProps {
+  user?: User
+}
+
+// const PersonalInformationForm = () => {
+const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ user }) => {
     const session = useSession();
     const token = (session?.data?.user as { accessToken: string })?.accessToken;
     const queryClient = useQueryClient();
 
+
     const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            firstName: "",
-            lastName: "",
-            email: "",
-            hight: "",
-            dob: null,
-            birthdayPlace: "",
-            gender: "",
-            weight: "",
-            inSchoolOrCollege: undefined,
-            institute: "",
-            gpa: "",
-            agencyName: "",
-            social_media: "",
-            citizenship: "",
-            currentClub: "",
-            league: "",
-            category: "",
-            foot: "",
-            position: "",
-        },
-    })
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      firstName: user?.firstName || "",
+      lastName: user?.lastName || "",
+      email: user?.email || "",
+      gender: user?.gender || "",
+      hight: user?.hight || "",
+      weight: user?.weight || "",
+      agencyName: user?.agent || "",
+      social_media: Array.isArray(user?.socialMedia) ? user.socialMedia.join(", ") : "",
+      citizenship: user?.citizenship || "",
+      currentClub: user?.currentClub || "",
+      league: user?.league || "",
+      category: user?.category || "",
+      foot: user?.foot || "",
+      position: user?.position || "",
+      birthdayPlace: user?.birthdayPlace || "",
+      dob: user?.dob ? new Date(user.dob) : null,
+      inSchoolOrCollege: user?.inSchoolOrCollege === true ? "yes" : user?.inSchoolOrCollege === false ? "no" : undefined,
+      institute: user?.institute || "",
+      gpa: user?.gpa || "",
+    }
+  })
 
-    const inSchoolOrCollege = form.watch("inSchoolOrCollege")
+  const inSchoolOrCollege = form.watch("inSchoolOrCollege")
 
-    const { data } = useQuery<UserProfile>({
-        queryKey: ['user-profile'],
-        queryFn: async () => {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/profile`, {
-                method: 'GET',
-                headers: {
-                    // "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                }
-            })
-            return res.json();
-        },
-        enabled: !!token,
-         staleTime: 0,
-    })
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["update-profile"],
+    mutationFn: async (values: z.infer<typeof formSchema>) => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/profile`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify(values)
+      })
+      return res.json()
+    },
+    onSuccess: async (data) => {
+      if (!data?.success) {
+        toast.error(data?.message || "Something went wrong")
+        return
+      }
+      toast.success(data?.message || "Profile updated successfully")
+        await queryClient.invalidateQueries({ queryKey: ["user-profile"] })
+    },
+    onError: () => toast.error("Update failed"),
+  })
 
-    console.log("User Profile Data:", data);
+    // const form = useForm<z.infer<typeof formSchema>>({
+    //     resolver: zodResolver(formSchema),
+    //     defaultValues: {
+    //         firstName: "",
+    //         lastName: "",
+    //         email: "",
+    //         hight: "",
+    //         dob: null,
+    //         birthdayPlace: "",
+    //         gender: "",
+    //         weight: "",
+    //         inSchoolOrCollege: undefined,
+    //         institute: "",
+    //         gpa: "",
+    //         agencyName: "",
+    //         social_media: "",
+    //         citizenship: "",
+    //         currentClub: "",
+    //         league: "",
+    //         category: "",
+    //         foot: "",
+    //         position: "",
+    //     },
+    // })
+
+    // const inSchoolOrCollege = form.watch("inSchoolOrCollege")
+
+    // const { data } = useQuery<UserProfileApiResponse>({
+    //     queryKey: ['user-profile'],
+    //     queryFn: async () => {
+    //         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/profile`, {
+    //             method: 'GET',
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 Authorization: `Bearer ${token}`,
+    //             }
+    //         })
+    //         return res.json();
+    //     },
+    //     enabled: !!token,
+    // })
+
+    // console.log("User Profile Data:", data?.data?.user?.firstName);
 
 
-    useEffect(() => {
-        if (data) {
+    // useEffect(() => {
+    //     if (data?.data?.user) {
 
-            form.reset({
-                firstName: data?.firstName || "",
-                lastName: data?.lastName || "",
-                email: data?.email || "",
-                gender: data?.gender || "",
-                hight: data?.hight || "",
-                weight: data?.weight || "",
-                agencyName: data?.agent || "",
-                social_media: Array.isArray(data?.socialMedia)
-                    ? data?.socialMedia.join(", ")
-                    : "",
-                citizenship: data?.citizenship || "",
-                currentClub: data?.currentClub || "",
-                league: data?.league || "",
-                category: data?.category || "",
-                foot: data?.foot || "",
-                position: data?.position || "",
-                birthdayPlace: data?.birthdayPlace || "",
-                dob: data?.dob ? new Date(data?.dob) : null,
+    //         form.reset({
+    //             firstName: data?.data?.user?.firstName || "",
+    //             lastName: data?.data?.user?.lastName || "",
+    //             email: data?.data?.user?.email || "",
+    //             gender: data?.data?.user?.gender || "",
+    //             hight: data?.data?.user?.hight || "",
+    //             weight: data?.data?.user?.weight || "",
+    //             agencyName: data?.data?.user?.agent || "",
+    //             social_media: Array.isArray(data?.data?.user?.socialMedia)
+    //                 ? data?.data?.user?.socialMedia.join(", ")
+    //                 : "",
+    //             citizenship: data?.data?.user?.citizenship || "",
+    //             currentClub: data?.data?.user?.currentClub || "",
+    //             league: data?.data?.user?.league || "",
+    //             category: data?.data?.user?.category || "",
+    //             foot: data?.data?.user?.foot || "",
+    //             position: data?.data?.user?.position || "",
+    //             birthdayPlace: data?.data?.user?.birthdayPlace || "",
+    //             dob: data?.data?.user?.dob ? new Date(data?.data?.user?.dob) : null,
 
-                // Education fields
-                inSchoolOrCollege:
-                    data?.inSchoolOrCollege === true
-                        ? "yes"
-                        : data?.inSchoolOrCollege === false
-                            ? "no"
-                            : undefined,
+    //             // Education fields
+    //             inSchoolOrCollege:
+    //                 data?.data?.user?.inSchoolOrCollege === true
+    //                     ? "yes"
+    //                     : data?.data?.user?.inSchoolOrCollege === false
+    //                         ? "no"
+    //                         : undefined,
 
-                institute: data?.institute || "",
-                gpa: data?.gpa || "",
-            });
-        }
-    }, [form, data]);
+    //             institute: data?.data?.user?.institute || "",
+    //             gpa: data?.data?.user?.gpa || "",
+    //         });
+    //     }
+    // }, [form, data?.data?.user]);
 
 
-    const { mutateAsync, isPending } = useMutation({
-        mutationKey: ["update-profile"],
-        mutationFn: async (values: z.infer<typeof formSchema>) => {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/profile`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(values),
-            })
-            return res.json()
-        },
-        onSuccess: async (data) => {
-            if (!data?.success) {
-                toast.error(data?.message || "Something went wrong");
-                return;
-            }
-            toast.success(data?.message || "User Profile updated successfully")
-           await queryClient.invalidateQueries({ queryKey: ["user-profile"] })
-        },
-    })
+    // const { mutate, isPending } = useMutation({
+    //     mutationKey: ["update-profile"],
+    //     mutationFn: async (values: z.infer<typeof formSchema>) => {
+    //         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/profile`, {
+    //             method: "PUT",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 Authorization: `Bearer ${token}`,
+    //             },
+    //             body: JSON.stringify(values),
+    //         })
+    //         return res.json()
+    //     },
+    //     onSuccess: async (data) => {
+    //         if (!data?.success) {
+    //             toast.error(data?.message || "Something went wrong");
+    //             return;
+    //         }
+    //         toast.success(data?.message || "User Profile updated successfully")
+    //        await queryClient.invalidateQueries({ queryKey: ["user-profile"] })
+    //     },
+    // })
 
 
 
     // 2. Define a submit handler.
-    // function onSubmit(values: z.infer<typeof formSchema>) {
-    //     console.log(values)
+    function onSubmit(values: z.infer<typeof formSchema>) {
+        console.log(values)
 
-    //     mutate(values)
-    // }
-
-   async function onSubmit(values: z.infer<typeof formSchema>) {
-  try {
-    await mutateAsync(values)
-  } catch (error) {
-    console.error(error)
-  }
-}
+        mutate(values)
+    }
 
 
 
@@ -678,7 +729,9 @@ const PersonalInformationForm = () => {
 
 
 
-                        <Button disabled={isPending} type="submit">{isPending ? "sending..." : "Submit"}</Button>
+                        <div className="w-full flex items-center justify-end">
+                            <Button className="h-[48px] px-10 py-2 rounded-[10px] text-base font-semibold text-white leading-[120%]" disabled={isPending} type="submit">{isPending ? "Updating..." : "Update Profile"}</Button>
+                        </div>
                     </form>
                 </Form>
             </div>
