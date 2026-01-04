@@ -28,9 +28,9 @@ const ContactInformation = () => {
                </div>
                </div>
 
-                <div className='bg-[#F8F8F8] p-4 md:p-5 lg:p-6 rounded-[16px]'>
+                {/* <div className='bg-[#F8F8F8] p-4 md:p-5 lg:p-6 rounded-[16px]'>
                     <p className='text-sm lg:text-base text-[#616161] font-normal leading-[150%] text-justify'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&apos;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                </div>
+                </div> */}
             </div>
              <div className='md:col-span-1'>
                 <div className='bg-[#F4FFF4] p-6 border border-primary rounded-[16px]'>
