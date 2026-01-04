@@ -1,6 +1,6 @@
 "use client"
 import { useQuery } from '@tanstack/react-query'
-import { useSession } from 'next-auth/react';
+// import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import React from 'react'
 import { UserProfileApiResponse } from './player-data-type';
@@ -10,21 +10,21 @@ import PlayerInfoSkeleton from './profile-info-skeleton';
 import ErrorContainer from '@/components/shared/ErrorContainer/ErrorContainer';
 
 const PlayerInfo = ({id}:{id:string}) => {
-    const session = useSession();
-    const token = (session?.data?.user as { accessToken: string })?.accessToken;
+    // const session = useSession();
+    // const token = (session?.data?.user as { accessToken: string })?.accessToken;
 
     const { data, isLoading, isError, error } = useQuery<UserProfileApiResponse>({
         queryKey: ["profile-info", id],
         queryFn: async () => {
             const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${id}`, {
                 method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+                // headers: {
+                //     Authorization: `Bearer ${token}`
+                // }
             })
             return res.json();
         },
-        enabled: !!token
+        // enabled: !!token
     })
 
     console.log(data)
@@ -74,8 +74,9 @@ const PlayerInfo = ({id}:{id:string}) => {
                 <div className="md:col-span-1">
                     <RatingCard averageRating={7.8} totalGames={2} />
 
-                    <div className="pt-10 md:pt-14 lg:pt-20">
+                    <div className="flex flex-col gap-6 pt-10 md:pt-12 lg:pt-16">
                         <button className="w-full h-[40px] bg-primary flex items-center justify-center gap-2 rounded-full text-base font-normal leading-[120%]  text-white px-12 py-2">Share <Share2 className="text-white" /></button>
+                         <button className="w-full h-[40px] bg-primary flex items-center justify-center gap-2 rounded-full text-base font-normal leading-[120%]  text-white px-12 py-2">Follow</button>
                     </div>
                 </div>
             </div>
