@@ -353,7 +353,7 @@ const Navbar = () => {
     <div className="sticky top-0 z-50">
       <header className="w-full border-b border-border bg-white">
         <nav className="container mx-auto px-4 py-3 lg:px-8">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center justify-between gap-7">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 flex-shrink-0">
               <Image
@@ -366,7 +366,7 @@ const Navbar = () => {
             </Link>
 
             {/* Search Box - Desktop */}
-            <div className="hidden lg:block flex-1 max-w-md mx-4">
+            <div className="hidden lg:block flex-1 max-w-sm mx-5">
               <SearchBox baseUrl={BASE_URL} />
             </div>
 
@@ -444,7 +444,7 @@ const Navbar = () => {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="h-[48px] text-base text-[#131313] font-normal leading-[150%] border-[2px] border-[#131313] py-2 px-12 rounded-full"
+                      className="h-[48px] text-base text-[#131313] font-normal leading-[150%] border-[2px] border-[#131313] py-2 px-8 rounded-full"
                     >
                       Sign In
                     </Button>
@@ -452,7 +452,7 @@ const Navbar = () => {
                   <Link href="/sign-up">
                     <Button
                       size="sm"
-                      className="h-[48px] py-2 px-12 rounded-full bg-primary hover:bg-primary/90 text-white text-base font-normal leading-[150%] "
+                      className="h-[48px] py-2 px-8 rounded-full bg-primary hover:bg-primary/90 text-white text-base font-normal leading-[150%] "
                     >
                       Register
                     </Button>
@@ -557,7 +557,7 @@ const Navbar = () => {
                     <Link href="/sign-up">
                       <Button
                         size="sm"
-                        className="h-[40px] py-2 px-12 rounded-full bg-primary hover:bg-primary/90 text-white text-base font-normal leading-[150%] "
+                        className="h-[40px] py-2 px-10 rounded-full bg-primary hover:bg-primary/90 text-white text-base font-normal leading-[150%] "
                       >
                         Register
                       </Button>

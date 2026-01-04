@@ -13,70 +13,80 @@ const faqItems = [
     {
       question: "What is Analytic Soccer?",
       answer:
-        "Analytic Soccer is the first data platform for amateur players, offering ratings, performance tactical analysis, and highlights based on your game footage.",
+        "Analytic Soccer is the first data platform for amateur players, offering ratings, technical–tactical analysis, structured feedback and highlights based on your game footage.",
     },
     {
       question: "How does it work?",
       answer:
-        "Upload your game footage, our AI analyzes every touch, movement, and decision, then generates a detailed performance report with ratings and insights.",
+        "You send us your game video and team sheet, we analyze the match, and you receive your ratings, your structured feedback  and highlights within 72 hours.",
     },
     {
       question: "Who is it For?",
       answer:
-        "Amateur and semi-pro players, coaches, scouts, and anyone looking to improve their game with data-driven feedback.",
+        "For boys and girls from U9 to U18+, as well as teams, coaches, scouts, and parents who want real performance insight.",
     },
     {
       question: "What do I need to provide?",
-      answer: "Just your match footage (phone recordings are fine).",
+      answer: "Just your game video and the team sheet with player names and positions. If possible, please also send the team lineup in case the players’ jerseys aren’t clearly visible.",
     },
     {
       question: "What kind of data do I receive?",
       answer:
-        "Player rating, positional heatmaps, pass accuracy, defensive actions, attacking contributions, tactical insights, and personalized highlights.",
+        "You receive technical and tactical stats, game ratings, structured feedback and a personalized highlight.",
     },
     {
       question: "How fast do I get my report?",
-      answer: "Reports are typically delivered within 24–48 hours after upload.",
+      answer: "You will receive your full report and highlight within 72 hours.",
     },
     {
       question: "Do I need to create an account?",
-      answer: "Yes, a free account is required to upload footage and view reports.",
+      answer: "Yes, you must register first and purchase the data service to activate your player profile.",
     },
     {
       question: "Can teams use Analytic Soccer?",
-      answer: "Yes, we offer team plans for entire squads and coaches.",
+      answer: "Yes. Teams and clubs can purchase squad data, compare players, and track development across the season.",
     },
     {
       question: "Is this for individual players or full teams?",
-      answer: "Both! Individual players and full teams can use the platform.",
+      answer: "Both. Individual players and full teams can submit matches for individual and collective analysis.",
     },
     {
       question: "Can girls use Analytic Soccer?",
-      answer: "Absolutely! The platform works for all genders and levels.",
+      answer: "Absolutely. Analytic Soccer is built for boys and girls of all levels.",
     },
     {
       question: "What makes the ratings fair?",
       answer:
-        "Ratings are normalized by position, age, level of play, and game context for accurate comparisons.",
+        "All ratings are based on consistent technical–tactical criteria, not opinions, eliminating bias and favoritism.",
     },
     {
       question: "Do you offer highlight videos?",
-      answer: "Yes, auto-generated personalized highlight reels are included.",
+      answer: "Yes, each analysis includes a personalized highlight showcasing your key actions.",
     },
     {
-      question: "Is my data private?",
+      question: "Is my data verified?",
       answer:
-        "Yes, your footage and data are private and only used to generate your reports.",
+        "Every rating and statistic is generated from real match footage making your profile credible to coaches and scouts.",
     },
     {
       question: "How does Analytic Soccer help with opportunities?",
       answer:
-        "High-performing players get visibility through our scouting network and public leaderboards (opt-in).",
+        "Your verified data and professional profile increase visibility for clubs, scouts, universities, and recruiters.",
     },
     {
       question: "Is there a cost to use the platform?",
       answer:
-        "We offer a free tier with basic reports. Premium features and faster processing are available with a subscription.",
+        "Yes. The only cost is when you purchase the data service.",
+    },
+    {
+      question: "Is a single report enough to get noticed?",
+      answer:
+        "No. To be noticed, at least one report per month is required during the season. The more proof of performance you provide, the stronger your profile becomes.",
+    },
+     {
+      question: "Who selects the matches for evaluation?”",
+      answer:
+        "You choose the match you want us to evaluate. We must be notified at least 72 hours before the match",
     },
   ];
 

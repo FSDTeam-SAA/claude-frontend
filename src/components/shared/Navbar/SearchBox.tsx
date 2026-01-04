@@ -147,7 +147,7 @@ const SearchBox = ({ baseUrl }: SearchBoxProps) => {
      UI
   -----------------------------------*/
   return (
-    <div ref={searchRef} className="relative w-full max-w-md">
+    <div ref={searchRef} className="relative w-full max-w-sm">
       <div className="relative border-2 border-[#929292] rounded-full">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
 
