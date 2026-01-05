@@ -30,6 +30,7 @@ const subscriptionData = data?.data?.filter(
 )
 
 console.log(subscriptionData)
+ const subscriptionId = "695645ddf8fc385a2d079234"
 
     return (
         <div className="bg-[#EBEBEB] py-10 md:py-16 lg:py-24">
@@ -40,9 +41,9 @@ console.log(subscriptionData)
                     {
                         subscriptionData?.map((item)=>{
                             return  <div key={item?._id} className="w-full md:w-1/3 border-[1.5px] border-[#1E3A8A] rounded-[16px]">
-                        <h4 className='bg-[#006600] rounded-t-[16px] text-lg md:text-xl lg:text-2xl font-normal text-white leading-[120%] text-center py-6 md:py-8 lg:py-10'>{item?.description}</h4>
+                        <h4 className='bg-[#006600] rounded-t-[16px] text-lg md:text-xl lg:text-[22px] font-normal text-white leading-[120%] text-center py-6 md:py-8 lg:py-10'>{item?.description}</h4>
                         <div className='pt-5 pb-6 md:pb-8 lg:pb-10 px-6 md:px-7 lg:px-8'>
-                            <h5 className="text-2xl md:text-3xl lg:text-[40px] text-[#131313] text-center leading-[120%] font-bold pb-5">${item?.price}</h5>
+                            <h5 className="text-2xl md:text-3xl lg:text-4xl text-[#131313] text-center leading-[120%] font-bold pb-5">${item?.price}</h5>
                             <button onClick={()=>setIsOpen(true)} className='w-full h-[51px] bg-[#424242] rounded-[8px] text-base text-white leading-[120%] font-medium '>Continue</button>
                         </div>
 
@@ -57,7 +58,7 @@ console.log(subscriptionData)
             {/* modal open  */}
             {
                 isOpen && (
-                   <RegisterAsIndividualPlayerForm open={isOpen} onOpenChange={setIsOpen}/>
+                   <RegisterAsIndividualPlayerForm open={isOpen} onOpenChange={setIsOpen} subscriptionId={subscriptionId}/>
                 )
             }
         </div>

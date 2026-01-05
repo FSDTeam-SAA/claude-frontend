@@ -1,3 +1,5 @@
+
+
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -50,11 +52,13 @@ import { toast } from "sonner"
 interface RegisterAsIndividualPlayerFormProps {
   open: boolean
   onOpenChange: (open: boolean) => void
+  subscriptionId?: string
 }
 
 const RegisterAsIndividualPlayerForm = ({
   open,
   onOpenChange,
+  subscriptionId,
 }: RegisterAsIndividualPlayerFormProps) => {
   const session = useSession();
     const token = (session?.data?.user as { accessToken: string })?.accessToken;
@@ -70,26 +74,77 @@ const RegisterAsIndividualPlayerForm = ({
     },
   })
 
-   const { mutate, isPending } = useMutation({
-        mutationKey: ["update-profile"],
-        mutationFn: async (values: z.infer<typeof formSchema>) => {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/profile`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-                body: JSON.stringify(values)
-            })
-            return res.json()
-        },
-        onSuccess: async (data) => {
-            if (!data?.success) {
-                toast.error(data?.message || "Something went wrong")
-                return
-            }
-            toast.success(data?.message || "Profile updated successfully")
-            form.reset()
-        },
-        onError: () => toast.error("Update failed"),
-    })
+  //  const { mutate, isPending } = useMutation({
+  //       mutationKey: ["update-profile"],
+  //       mutationFn: async (values: z.infer<typeof formSchema>) => {
+  //           const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/profile`, {
+  //               method: "PUT",
+  //               headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+  //               body: JSON.stringify(values)
+  //           })
+  //           return res.json()
+  //       },
+  //       onSuccess: async (data) => {
+  //           if (!data?.success) {
+  //               toast.error(data?.message || "Something went wrong")
+  //               return
+  //           }
+  //           toast.success(data?.message || "Profile updated successfully")
+  //           form.reset()
+  //       },
+  //       onError: () => toast.error("Update failed"),
+  //   })
+
+
+    const { mutate, isPending } = useMutation({
+    mutationKey: ["profile-payment"],
+    mutationFn: async (values: z.infer<typeof formSchema>) => {
+      /* 1️⃣ PROFILE UPDATE */
+      const profileRes = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/profile`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(values),
+        }
+      )
+
+      const profileData = await profileRes.json()
+      if (!profileData?.success) {
+        throw new Error(profileData?.message || "Profile update failed")
+      }
+
+      /* 2️⃣ STRIPE PAYMENT */
+      const paymentRes = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/subscription/pay/${subscriptionId}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+
+      const paymentData = await paymentRes.json()
+      if (!paymentData?.success) {
+        throw new Error("Payment creation failed")
+      }
+
+      return paymentData
+    },
+
+    onSuccess: (data) => {
+      toast.success("Redirecting to payment...")
+      window.location.href = data.data.url
+    },
+
+    onError: (error: Error) => {
+      toast.error(error.message || "Something went wrong")
+    },
+  })
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
