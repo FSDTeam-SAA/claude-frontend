@@ -97,26 +97,6 @@ const formSchema = z.object({
 
 
 
-// .refine((data) => {
-//     if (data.inSchoolOrCollege === "yes") {
-//         if (!data.institute || data.institute.trim().length < 2) return false;
-//         if (!data.gpa || data.gpa.trim().length === 0) return false;
-//     }
-//     return true;
-// }, {
-//     message: "Institute Name and GPA are required if you are in school/college.",
-//     path: ["institute"], // Shows error under Institute Name field
-// }).refine((data) => {
-//     if (data.inSchoolOrCollege === "yes") {
-//         if (!data.gpa || data.gpa.trim().length === 0) return false;
-//     }
-//     return true;
-// }, {
-//     message: "GPA is required if you are in school/college.",
-//     path: ["gpa"], // Ensures error also appears under GPA if needed
-// })
-
-
 interface PersonalInformationFormProps {
     user?: User
 }
@@ -175,112 +155,6 @@ const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ user 
         },
         onError: () => toast.error("Update failed"),
     })
-
-    // const form = useForm<z.infer<typeof formSchema>>({
-    //     resolver: zodResolver(formSchema),
-    //     defaultValues: {
-    //         firstName: "",
-    //         lastName: "",
-    //         email: "",
-    //         hight: "",
-    //         dob: null,
-    //         birthdayPlace: "",
-    //         gender: "",
-    //         weight: "",
-    //         inSchoolOrCollege: undefined,
-    //         institute: "",
-    //         gpa: "",
-    //         agencyName: "",
-    //         social_media: "",
-    //         citizenship: "",
-    //         currentClub: "",
-    //         league: "",
-    //         category: "",
-    //         foot: "",
-    //         position: "",
-    //     },
-    // })
-
-    // const inSchoolOrCollege = form.watch("inSchoolOrCollege")
-
-    // const { data } = useQuery<UserProfileApiResponse>({
-    //     queryKey: ['user-profile'],
-    //     queryFn: async () => {
-    //         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/profile`, {
-    //             method: 'GET',
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 Authorization: `Bearer ${token}`,
-    //             }
-    //         })
-    //         return res.json();
-    //     },
-    //     enabled: !!token,
-    // })
-
-    // console.log("User Profile Data:", data?.data?.user?.firstName);
-
-
-    // useEffect(() => {
-    //     if (data?.data?.user) {
-
-    //         form.reset({
-    //             firstName: data?.data?.user?.firstName || "",
-    //             lastName: data?.data?.user?.lastName || "",
-    //             email: data?.data?.user?.email || "",
-    //             gender: data?.data?.user?.gender || "",
-    //             hight: data?.data?.user?.hight || "",
-    //             weight: data?.data?.user?.weight || "",
-    //             agencyName: data?.data?.user?.agent || "",
-    //             social_media: Array.isArray(data?.data?.user?.socialMedia)
-    //                 ? data?.data?.user?.socialMedia.join(", ")
-    //                 : "",
-    //             citizenship: data?.data?.user?.citizenship || "",
-    //             currentClub: data?.data?.user?.currentClub || "",
-    //             league: data?.data?.user?.league || "",
-    //             category: data?.data?.user?.category || "",
-    //             foot: data?.data?.user?.foot || "",
-    //             position: data?.data?.user?.position || "",
-    //             birthdayPlace: data?.data?.user?.birthdayPlace || "",
-    //             dob: data?.data?.user?.dob ? new Date(data?.data?.user?.dob) : null,
-
-    //             // Education fields
-    //             inSchoolOrCollege:
-    //                 data?.data?.user?.inSchoolOrCollege === true
-    //                     ? "yes"
-    //                     : data?.data?.user?.inSchoolOrCollege === false
-    //                         ? "no"
-    //                         : undefined,
-
-    //             institute: data?.data?.user?.institute || "",
-    //             gpa: data?.data?.user?.gpa || "",
-    //         });
-    //     }
-    // }, [form, data?.data?.user]);
-
-
-    // const { mutate, isPending } = useMutation({
-    //     mutationKey: ["update-profile"],
-    //     mutationFn: async (values: z.infer<typeof formSchema>) => {
-    //         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/profile`, {
-    //             method: "PUT",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 Authorization: `Bearer ${token}`,
-    //             },
-    //             body: JSON.stringify(values),
-    //         })
-    //         return res.json()
-    //     },
-    //     onSuccess: async (data) => {
-    //         if (!data?.success) {
-    //             toast.error(data?.message || "Something went wrong");
-    //             return;
-    //         }
-    //         toast.success(data?.message || "User Profile updated successfully")
-    //        await queryClient.invalidateQueries({ queryKey: ["user-profile"] })
-    //     },
-    // })
 
 
 
@@ -503,10 +377,10 @@ const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ user 
                                                     <SelectValue placeholder="Select" />
                                                 </SelectTrigger>
                                                 <SelectContent className="h-[200px] overflow-y-auto">
-                                                    <SelectItem value="ecnl">NWSL</SelectItem>
+                                                    <SelectItem value="nwsl">NWSL</SelectItem>
                                                     <SelectItem value="ecnl">ECNL</SelectItem>
-                                                    <SelectItem value="ecnl">USL Super League</SelectItem>
-                                                    <SelectItem value="ecnl">Travel</SelectItem>
+                                                    <SelectItem value="usl super league">USL Super League</SelectItem>
+                                                    <SelectItem value="travel">Travel</SelectItem>
                                                     <SelectItem value="ecnl rl">ECNL RL</SelectItem>
                                                     <SelectItem value="mls next">MLS NEXT</SelectItem>
                                                     <SelectItem value="npl">NPL</SelectItem>
@@ -538,7 +412,7 @@ const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ user 
                                                 </SelectTrigger>
                                                 <SelectContent className="h-[200px] overflow-y-auto">
                                                     <SelectItem value="semi-professional">Semi Professional</SelectItem>
-                                                    <SelectItem value="semi-professional">Professional</SelectItem>
+                                                    <SelectItem value="professional">Professional</SelectItem>
                                                     <SelectItem value="adult">Adult</SelectItem>
                                                     <SelectItem value="U9">U9</SelectItem>
                                                     <SelectItem value="U10">U10</SelectItem>
@@ -595,7 +469,7 @@ const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ user 
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-base font-normal leading-[150%] text-[#131313]">
-                                            Position (select 1 position)
+                                            Position (select 2 positions)
                                         </FormLabel>
                                         <FormControl>
                                             <Select
@@ -689,17 +563,19 @@ const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ user 
 
                         {/* Conditional Education Fields */}
                         {inSchoolOrCollege === "yes" && (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
-                                <FormField
-                                    control={form.control}
-                                    name="institute"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className="text-base font-normal leading-[150%] text-[#131313]">
-                                                School Name
-                                            </FormLabel>
-                                            <FormControl>
-                                                {/* <Select
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
+                                <div className="md:col-span-2">
+                                    <FormField
+                                        control={form.control}
+                                        name="institute"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel className="text-base font-normal leading-[150%] text-[#131313]">
+                                                    School Name
+                                                </FormLabel>
+                                                <FormControl>
+
+                                                    {/* <Select
                                                     onValueChange={field.onChange}
                                                     value={field.value}
                                                 >
@@ -712,35 +588,65 @@ const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ user 
                                                         <SelectItem value="college or university">College / University</SelectItem>
                                                     </SelectContent>
                                                 </Select> */}
+                                                    {/* 
                                                  <Input
                                                     placeholder="Write here"
                                                     {...field}
                                                     className="w-full h-[47px] border border-[#645949] rounded-[8px] text-[#131313] placeholder:text-[#929292]"
-                                                /> 
-                                            </FormControl>
-                                            <FormMessage className="text-red-500" />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="gpa"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className="text-base font-normal leading-[150%] text-[#131313]">
-                                                GPA
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    placeholder="Write here"
-                                                    {...field}
-                                                    className="w-full h-[47px] border border-[#645949] rounded-[8px] text-[#131313] placeholder:text-[#929292]"
-                                                />
-                                            </FormControl>
-                                            <FormMessage className="text-red-500" />
-                                        </FormItem>
-                                    )}
-                                />
+                                                />  */}
+
+                                                    <RadioGroup
+                                                        onValueChange={field.onChange}
+                                                        value={field.value}
+                                                        className="flex flex-row items-center space-x-8 pt-2"
+                                                    >
+                                                        <div className="flex items-center space-x-3">
+                                                            <RadioGroupItem value="middle school" id="middle school" />
+                                                            <label htmlFor="middle school" className="cursor-pointer text-base font-medium text-[#131313]">
+                                                                Middle School
+                                                            </label>
+                                                        </div>
+                                                        <div className="flex items-center space-x-3">
+                                                            <RadioGroupItem value="high school" id="high school" />
+                                                            <label htmlFor="high school" className="cursor-pointer text-base font-medium text-[#131313]">
+                                                                High School
+                                                            </label>
+                                                        </div>
+                                                        <div className="flex items-center space-x-3">
+                                                            <RadioGroupItem value="college / university" id="college / university" />
+                                                            <label htmlFor="college / university" className="cursor-pointer text-base font-medium text-[#131313]">
+                                                                College / University
+                                                            </label>
+                                                        </div>
+                                                    </RadioGroup>
+
+                                                </FormControl>
+                                                <FormMessage className="text-red-500" />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                                <div className="md:col-span-1">
+                                    <FormField
+                                        control={form.control}
+                                        name="gpa"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel className="text-base font-normal leading-[150%] text-[#131313]">
+                                                    GPA
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        placeholder="Write here"
+                                                        {...field}
+                                                        className="w-full h-[47px] border border-[#645949] rounded-[8px] text-[#131313] placeholder:text-[#929292]"
+                                                    />
+                                                </FormControl>
+                                                <FormMessage className="text-red-500" />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
                             </div>
                         )}
 
