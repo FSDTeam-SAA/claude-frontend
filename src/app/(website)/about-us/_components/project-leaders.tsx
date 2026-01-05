@@ -15,7 +15,7 @@ const ProjectLeader = () => {
         },
     ]
   return (
-    <div className='bg-[#CDFFCD] py-10 md:py-16 lg:py-20'>
+    <div className='bg_color py-10 md:py-16 lg:py-20'>
         <div className="container">
             <h3 className='text-2xl md:text-3xl lg:text-4xl text-primary font-normal leading-[120%] text-center'>Project Leaders</h3>
        <div className="flex flex-col md:flex-row items-center justify-center gap-10 pt-6 md:pt-8 lg:pt-10">
