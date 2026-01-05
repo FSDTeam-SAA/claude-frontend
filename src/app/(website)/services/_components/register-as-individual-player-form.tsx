@@ -26,15 +26,15 @@ import {
 import { Input } from "@/components/ui/input"
 
 const formSchema = z.object({
-  playerName: z.string().min(2, {
+  firstName: z.string().min(2, {
     message: "Player Name must be at least 2 characters.",
   }),
    teamName: z.string().min(2, {
     message: "Team Name must be at least 2 characters.",
   }),
-   league: z.string().min(2, {
-    message: "League Name must be at least 2 characters.",
-  }),
+   league: z.string().min(1, {
+        message: "League is required.",
+    }),
    category: z.string().min(1, {
         message: "Category is required.",
     }),
@@ -43,6 +43,9 @@ import {
   Dialog,
   DialogContent,
 } from "@/components/ui/dialog"
+import { useSession } from "next-auth/react"
+import { useMutation } from "@tanstack/react-query"
+import { toast } from "sonner"
 
 interface RegisterAsIndividualPlayerFormProps {
   open: boolean
@@ -53,19 +56,46 @@ const RegisterAsIndividualPlayerForm = ({
   open,
   onOpenChange,
 }: RegisterAsIndividualPlayerFormProps) => {
+  const session = useSession();
+    const token = (session?.data?.user as { accessToken: string })?.accessToken;
+
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      playerName: "",
+      firstName: "",
       teamName: "",
       league: "",
       category: "",
     },
   })
 
+   const { mutate, isPending } = useMutation({
+        mutationKey: ["update-profile"],
+        mutationFn: async (values: z.infer<typeof formSchema>) => {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/profile`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+                body: JSON.stringify(values)
+            })
+            return res.json()
+        },
+        onSuccess: async (data) => {
+            if (!data?.success) {
+                toast.error(data?.message || "Something went wrong")
+                return
+            }
+            toast.success(data?.message || "Profile updated successfully")
+            form.reset()
+        },
+        onError: () => toast.error("Update failed"),
+    })
+
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
+
+    mutate(values)
   }
   return (
     <div>
@@ -91,7 +121,7 @@ const RegisterAsIndividualPlayerForm = ({
 
                 <FormField
                   control={form.control}
-                  name="playerName"
+                  name="firstName"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-base text-[#424242] leading-[150%] font-normal">Player Name *</FormLabel>
@@ -130,11 +160,11 @@ const RegisterAsIndividualPlayerForm = ({
                                                 value={field.value}
                                             >
                                                 <SelectTrigger className="w-full h-[48px] py-2 px-3 rounded-[8px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]">
-                                                    <SelectValue placeholder="Select" />
+                                                    <SelectValue placeholder="Select Category" />
                                                 </SelectTrigger>
                                                 <SelectContent className="h-[200px] overflow-y-auto">
                                                     <SelectItem value="semi-professional">Semi Professional</SelectItem>
-                                                    <SelectItem value="semi-professional">Professional</SelectItem>
+                                                    <SelectItem value="professional">Professional</SelectItem>
                                                     <SelectItem value="adult">Adult</SelectItem>
                                                     <SelectItem value="U9">U9</SelectItem>
                                                     <SelectItem value="U10">U10</SelectItem>
@@ -154,21 +184,42 @@ const RegisterAsIndividualPlayerForm = ({
                                     </FormItem>
                                 )}
                             />
-                 <FormField
-                  control={form.control}
-                  name="league"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-base text-[#424242] leading-[150%] font-normal">Which league do you play? *</FormLabel>
-                      <FormControl>
-                        <Input className="h-[48px] text-base leading-[120%] text-[#131313] font-normal border border-[#6C6C6C] rounded-[8px] placeholder:text-[#929292] " placeholder="Enter Player Name..." {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <FormField
+                                control={form.control}
+                                name="league"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-base text-[#424242] leading-[150%] font-normal">
+                                            Which league do you play?
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Select
+                                                onValueChange={field.onChange}
+                                                value={field.value}
+                                            >
+                                                <SelectTrigger className="w-full h-[48px] py-2 px-3 rounded-[8px] border border-[#645949] text-base font-medium leading-[120%] text-[#131313]">
+                                                    <SelectValue placeholder="Select League" />
+                                                </SelectTrigger>
+                                                <SelectContent className="h-[200px] overflow-y-auto">
+                                                    <SelectItem value="nwsl">NWSL</SelectItem>
+                                                    <SelectItem value="ecnl">ECNL</SelectItem>
+                                                    <SelectItem value="usl super league">USL Super League</SelectItem>
+                                                    <SelectItem value="travel">Travel</SelectItem>
+                                                    <SelectItem value="ecnl rl">ECNL RL</SelectItem>
+                                                    <SelectItem value="mls next">MLS NEXT</SelectItem>
+                                                    <SelectItem value="npl">NPL</SelectItem>
+                                                    <SelectItem value="pdl">PDL</SelectItem>
+                                                    <SelectItem value="upsl">UPSL</SelectItem>
+                                                    <SelectItem value="usl academy">USL Academy</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </FormControl>
+                                        <FormMessage className="text-red-500" />
+                                    </FormItem>
+                                )}
+                            />
 
-                <Button className="w-full h-[47px] rounded-[8px] text-[#F2F2F2] text-base " type="submit"><LockKeyhole /> Make Your Payment</Button>
+                <Button disabled={isPending} className="w-full h-[47px] rounded-[8px] text-[#F2F2F2] text-base " type="submit"><LockKeyhole /> {isPending ? "Updating..." : "Make Your Payment"}</Button>
               </form>
             </Form>
           </div>

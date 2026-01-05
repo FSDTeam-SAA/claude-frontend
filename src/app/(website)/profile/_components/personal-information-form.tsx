@@ -377,10 +377,10 @@ const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ user 
                                                     <SelectValue placeholder="Select" />
                                                 </SelectTrigger>
                                                 <SelectContent className="h-[200px] overflow-y-auto">
-                                                    <SelectItem value="ecnl">NWSL</SelectItem>
+                                                    <SelectItem value="nwsl">NWSL</SelectItem>
                                                     <SelectItem value="ecnl">ECNL</SelectItem>
-                                                    <SelectItem value="ecnl">USL Super League</SelectItem>
-                                                    <SelectItem value="ecnl">Travel</SelectItem>
+                                                    <SelectItem value="usl super league">USL Super League</SelectItem>
+                                                    <SelectItem value="travel">Travel</SelectItem>
                                                     <SelectItem value="ecnl rl">ECNL RL</SelectItem>
                                                     <SelectItem value="mls next">MLS NEXT</SelectItem>
                                                     <SelectItem value="npl">NPL</SelectItem>
@@ -412,7 +412,7 @@ const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ user 
                                                 </SelectTrigger>
                                                 <SelectContent className="h-[200px] overflow-y-auto">
                                                     <SelectItem value="semi-professional">Semi Professional</SelectItem>
-                                                    <SelectItem value="semi-professional">Professional</SelectItem>
+                                                    <SelectItem value="professional">Professional</SelectItem>
                                                     <SelectItem value="adult">Adult</SelectItem>
                                                     <SelectItem value="U9">U9</SelectItem>
                                                     <SelectItem value="U10">U10</SelectItem>
