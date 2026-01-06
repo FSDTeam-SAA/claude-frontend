@@ -6,7 +6,7 @@ import React from 'react'
 // import ActivateYourProfile from '../contact-us/_components/activate-your-profile'
 // import MeetOurAnalyticsMember from './_components/meet-our-analytics-member'
 import BuyYourDataNow from './_components/buy-your-data-now'
-import ProjectLeader from './_components/project-leaders'
+// import ProjectLeader from './_components/project-leaders'
 
 const AboutUsPage = () => {
   return (
@@ -18,7 +18,7 @@ const AboutUsPage = () => {
       <MeetOurCertified/>
       <OurPromiseToYou/> */}
 
-        <ProjectLeader/>
+        {/* <ProjectLeader/> */}
       <BuyYourDataNow/>
     </div>
   )
