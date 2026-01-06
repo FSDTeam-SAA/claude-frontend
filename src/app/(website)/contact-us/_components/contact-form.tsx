@@ -35,7 +35,7 @@ const formSchema = z.object({
 
   message: z
     .string()
-    .min(2, { message: "Message must be at least 2 characters." })
+    .min(10, { message: "Message must be at least 10 characters." })
     .max(500, { message: "Message cannot exceed 500 characters." }),
 });
 
@@ -80,7 +80,7 @@ const ContactForm = () => {
         mutate(values)
     }
     return (
-        <div>
+        <div className="">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -130,7 +130,7 @@ const ContactForm = () => {
                         name="message"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className="text-base font-normal leading-[150%] text-[#2A2A2A]">Message </FormLabel>
+                                <FormLabel className="text-base font-normal leading-[150%] text-[#2A2A2A]">Message *</FormLabel>
                                 <FormControl>
                                     <Textarea className="h-[121px] rounded-[8px] border border-[#5A5A5A] py-3 px-4 placeholder:text-[#929292] outline-none ring-0" placeholder="Tell us how we can help you" {...field} />
                                 </FormControl>

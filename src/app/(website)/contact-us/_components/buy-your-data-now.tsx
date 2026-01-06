@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 const BuyYourDataNow = () => {
   return (
-    <div className='bg-[#B0FFAA] py-8 md:py-10 lg:py-12'>
+    <div className='bg-[#B0FFAA] p-6 md:py-10 lg:py-12'>
       <div className='container bg-white p-8 rounded-[50px] '>
         <Image src="/assets/images/buyyourdatanow.png" alt="buy your data now" width={1000} height={1000} className="w-full object-cover"/>
 

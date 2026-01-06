@@ -9,7 +9,7 @@ import HowOurAnalytics from './_components/how-our-analytics'
 import AccessThePlatform from './_components/access-the-platform'
 import WhatDoWeOffer from './_components/what-do-we-offer'
 import OurMission from './_components/our-mission'
-import ProjectLeader from './about-us/_components/project-leaders'
+import ProjectLeader from './prices/_components/project-leaders'
 
 const HomePage = () => {
     return (

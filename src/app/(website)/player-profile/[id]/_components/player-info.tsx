@@ -2,6 +2,7 @@
 import { useQuery } from '@tanstack/react-query'
 // import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import moment from "moment";
 import React from 'react'
 import { UserProfileApiResponse } from './player-data-type';
 import { Share2 } from 'lucide-react'
@@ -9,7 +10,7 @@ import RatingCard from './rating-card';
 import PlayerInfoSkeleton from './profile-info-skeleton';
 import ErrorContainer from '@/components/shared/ErrorContainer/ErrorContainer';
 
-const PlayerInfo = ({id}:{id:string}) => {
+const PlayerInfo = ({ id }: { id: string }) => {
     // const session = useSession();
     // const token = (session?.data?.user as { accessToken: string })?.accessToken;
 
@@ -60,7 +61,14 @@ const PlayerInfo = ({id}:{id:string}) => {
                         <li className="flex flex-col gap-2"><span className='text-base font-normal text-[#616161] leading-[150%]'>Category</span> <span className='text-lg md:text-xl text-[#131313] font-normal leading-[120%] '>{personalInfo?.category || "N/A"}</span></li>
                         <li className="flex flex-col gap-2"><span className='text-base font-normal text-[#616161] leading-[150%]'>Agent</span> <span className='text-lg md:text-xl text-[#131313] font-normal leading-[120%] '>{personalInfo?.agent || "N/A"}</span></li>
                         <li className="flex flex-col gap-2"><span className='text-base font-normal text-[#616161] leading-[150%]'>Social media</span> <span className='text-lg md:text-xl text-[#131313] font-normal leading-[120%] '>{personalInfo?.gpa || "N/A"}</span></li>
-                        <li className="flex flex-col gap-2"><span className='text-base font-normal text-[#616161] leading-[150%]'>Age</span> <span className='text-lg md:text-xl text-[#131313] font-normal leading-[120%] '>{personalInfo?.dob || "N/A"}</span></li>
+                        <li className="flex flex-col gap-2">
+                            <span className="text-base font-normal text-[#616161] leading-[150%]">
+                                Age
+                            </span>
+                            <span className="text-lg md:text-xl text-[#131313] font-normal leading-[120%]">
+                            {moment(personalInfo?.dob).format("DD MMM YYYY") || "N/A"}
+                            </span>
+                        </li>
                         <li className="flex flex-col gap-2"><span className='text-base font-normal text-[#616161] leading-[150%]'>Height</span> <span className='text-lg md:text-xl text-[#131313] font-normal leading-[120%] '>{personalInfo?.hight || "N/A"}</span></li>
                         <li className="flex flex-col gap-2"><span className='text-base font-normal text-[#616161] leading-[150%]'>Position</span> <span className='text-lg md:text-xl text-[#131313] font-normal leading-[120%] '>{personalInfo?.position || "N/A"}</span></li>
                         <li className="flex flex-col gap-2"><span className='text-base font-normal text-[#616161] leading-[150%]'>League</span> <span className='text-lg md:text-xl text-[#131313] font-normal leading-[120%] '>{personalInfo?.league || "N/A"}</span></li>
@@ -76,7 +84,7 @@ const PlayerInfo = ({id}:{id:string}) => {
 
                     <div className="flex flex-col gap-6 pt-10 md:pt-12 lg:pt-16">
                         <button className="w-full h-[40px] bg-primary flex items-center justify-center gap-2 rounded-full text-base font-normal leading-[120%]  text-white px-12 py-2">Share <Share2 className="text-white" /></button>
-                         <button className="w-full h-[40px] bg-primary flex items-center justify-center gap-2 rounded-full text-base font-normal leading-[120%]  text-white px-12 py-2">Follow</button>
+                        <button className="w-full h-[40px] bg-primary flex items-center justify-center gap-2 rounded-full text-base font-normal leading-[120%]  text-white px-12 py-2">Follow</button>
                     </div>
                 </div>
             </div>

@@ -23,7 +23,7 @@
 //   const whiteNavRoutes = [
 //     "/",
 //     "/services",
-//     "/about-us",
+//     "/prices",
 //     "/contact-us",
 //   ];
 
@@ -178,7 +178,7 @@
 //               <Link href="/services" className={`text-sm md:text-base hover:text-primary leading-[150%] text-[#131313] font-normal transition-all ease-in-out duration-300 ${pathname === "/services" ? "border-b-[2px] border-primary" : "border-0"}`}>
 //                 Services
 //               </Link>
-//               <Link href="/about-us" className={`text-sm md:text-base hover:text-primary leading-[150%] text-[#131313] font-normal transition-all ease-in-out duration-300 ${pathname === "/about-us" ? "border-b-[2px] border-primary" : "border-0"}`}>
+//               <Link href="/prices" className={`text-sm md:text-base hover:text-primary leading-[150%] text-[#131313] font-normal transition-all ease-in-out duration-300 ${pathname === "/prices" ? "border-b-[2px] border-primary" : "border-0"}`}>
 //                 About Us
 //               </Link>
 //               <Link href="/contact-us" className={`text-sm md:text-base hover:text-primary leading-[150%] text-[#131313] font-normal transition-all ease-in-out duration-300 ${pathname === "/contact-us" ? "border-b-[2px] border-primary" : "border-0"}`}>
@@ -238,7 +238,7 @@
 //                 <Link href="/services" className={`w-fit text-sm md:text-base hover:text-primary leading-[150%] text-[#131313] font-normal transition-all ease-in-out duration-300 ${pathname === "/services" ? "border-b-[2px] border-primary" : "border-0"}`}>
 //                   Services
 //                 </Link>
-//                 <Link href="/about-us" className={`w-fit text-sm md:text-base hover:text-primary leading-[150%] text-[#131313] font-normal transition-all ease-in-out duration-300 ${pathname === "/about-us" ? "border-b-[2px] border-primary" : "border-0"}`}>
+//                 <Link href="/prices" className={`w-fit text-sm md:text-base hover:text-primary leading-[150%] text-[#131313] font-normal transition-all ease-in-out duration-300 ${pathname === "/prices" ? "border-b-[2px] border-primary" : "border-0"}`}>
 //                   About Us
 //                 </Link>
 //                 <Link href="/contact-us" className={`w-fit text-sm md:text-base hover:text-primary leading-[150%] text-[#131313] font-normal transition-all ease-in-out duration-300 ${pathname === "/contact-us" ? "border-b-[2px] border-primary" : "border-0"}`}>
@@ -389,13 +389,12 @@ const Navbar = () => {
                 Services
               </Link>
               <Link
-                href="/about-us"
+                href="/prices"
                 className={`text-sm md:text-base hover:text-primary leading-[150%] text-[#131313] font-normal transition-all ease-in-out duration-300 ${
-                  pathname === "/about-us" ? "border-b-[2px] border-primary" : "border-0"
+                  pathname === "/prices" ? "border-b-[2px] border-primary" : "border-0"
                 }`}
               >
-                About Us
-                {/* Prices */}
+                Prices
               </Link>
               <Link
                 href="/contact-us"
@@ -423,9 +422,14 @@ const Navbar = () => {
                   <DropdownMenuContent className="p-2">
                     <Link href="/profile">
                       <DropdownMenuLabel className="cursor-pointer text-base md:text-lg text-[#131313] leading-[120%] font-medium hover:text-primary">
-                        Profile
+                        Profiles
                       </DropdownMenuLabel>
                     </Link>
+                    <Link href="#">
+                        <DropdownMenuLabel className="cursor-pointer text-base md:text-lg text-[#131313] leading-[120%] font-medium hover:text-primary">
+                          Player Evaluation Program
+                        </DropdownMenuLabel>
+                      </Link>
                     <Link href="/password-change">
                       <DropdownMenuLabel className="cursor-pointer text-base md:text-lg text-[#131313] leading-[120%] font-medium hover:text-primary">
                         Password Change
@@ -497,12 +501,12 @@ const Navbar = () => {
                 Services
               </Link>
               <Link
-                href="/about-us"
+                href="/prices"
                 className={`w-fit text-sm md:text-base hover:text-primary leading-[150%] text-[#131313] font-normal transition-all ease-in-out duration-300 ${
-                  pathname === "/about-us" ? "border-b-[2px] border-primary" : "border-0"
+                  pathname === "/prices" ? "border-b-[2px] border-primary" : "border-0"
                 }`}
               >
-                About Us
+                Prices
               </Link>
               <Link
                 href="/contact-us"
@@ -528,7 +532,12 @@ const Navbar = () => {
                     <DropdownMenuContent className="p-2">
                       <Link href="/profile">
                         <DropdownMenuLabel className="cursor-pointer text-base md:text-lg text-[#131313] leading-[120%] font-medium hover:text-primary">
-                          Profile
+                          Profiles
+                        </DropdownMenuLabel>
+                      </Link>
+                      <Link href="#">
+                        <DropdownMenuLabel className="cursor-pointer text-base md:text-lg text-[#131313] leading-[120%] font-medium hover:text-primary">
+                          Player Evaluation Program
                         </DropdownMenuLabel>
                       </Link>
                       <Link href="/password-change">

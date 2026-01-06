@@ -63,7 +63,7 @@ const TeamsPlayer = () => {
 
                                     <p className="flex items-center justify-center gap-2 text-sm text-[#131313] py-4">
                                         <CircleCheckBig className="w-4 h-4 text-green-600" />
-                                        Data report & Highlights
+                                        Data report, Highlights & Feedback
                                     </p>
 
                                     <button className='w-full h-[51px] bg-[#424242] rounded-[8px] text-base text-white leading-[120%] font-medium '>Continue</button>
