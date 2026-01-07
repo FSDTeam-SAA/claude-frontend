@@ -71,7 +71,7 @@ export interface UserProfile {
   verified: boolean
   league: string
   category: string
-  position: string
+  position: string[]
   socialMedia: string[]
   playingVideo: string[]
   createdAt: string
