@@ -52,12 +52,8 @@ const formSchema = z.object({
     weight: z.string().min(2, {
         message: "Weight must be at least 2 characters.",
     }),
-    agencyName: z.string().min(2, {
-        message: "Agency Name must be at least 2 characters.",
-    }),
-    social_media: z.string().min(2, {
-        message: "Social Media must be at least 2 characters.",
-    }),
+    agencyName: z.string().optional(),
+    social_media: z.string().optional(),
     citizenship: z.string().min(2, {
         message: "citizenship must be at least 2 characters.",
     }),
