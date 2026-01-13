@@ -12,30 +12,9 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart"
 
-/* -----------------------------
-   Custom Label Type (NO any)
--------------------------------- */
-interface CustomBarLabelProps extends LabelProps {
-  value?: number | string
-}
-
-/* -----------------------------
-   Custom Bar Label
--------------------------------- */
-const CustomBarLabel = ({
-  x,
-  y,
-  width,
-  value,
-}: CustomBarLabelProps) => {
-  if (
-    value === undefined ||
-    x === undefined ||
-    y === undefined ||
-    width === undefined
-  ) {
-    return null
-  }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const CustomBarLabel = (props: any) => {
+  const { x, y, width, value } = props
 
   const numX = typeof x === "number" ? x : Number(x)
   const numY = typeof y === "number" ? y : Number(y)
