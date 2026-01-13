@@ -40,11 +40,11 @@ const Footer = () => {
             <Link href="/services">
               <li className="text-base md:text-lg font-normal text-[#616161] leading-[120%] hover:underline hover:text-primary">Services</li>
             </Link>
-            <Link href="/about-us">
+            {/* <Link href="/about-us">
               <li className="text-base md:text-lg font-normal text-[#616161] leading-[120%] hover:underline hover:text-primary py-3 md:py-4">About Us</li>
-            </Link>
+            </Link> */}
             <Link href="/contact-us">
-              <li className="text-base md:text-lg font-normal text-[#616161] leading-[120%] hover:underline hover:text-primary">Contact Us</li>
+              <li className="text-base md:text-lg font-normal text-[#616161] leading-[120%] hover:underline hover:text-primary py-3 md:py-4">Contact Us</li>
             </Link>
           </ul>
         </div>

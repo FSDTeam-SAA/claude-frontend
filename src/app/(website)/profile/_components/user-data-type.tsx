@@ -55,7 +55,7 @@ export interface User {
   phone: string
   satAct: string
   institute: string
-
+  jerseyNumber: string
   accessLavel: string[]
   isSubscription: boolean
   lastLogin: string

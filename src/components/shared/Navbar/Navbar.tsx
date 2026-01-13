@@ -312,13 +312,13 @@ import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { signOut, useSession } from "next-auth/react"
-import { ChevronDown } from "lucide-react"
+// import { ChevronDown } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-  DropdownMenuItem
+  // DropdownMenuItem
 } from "@/components/ui/dropdown-menu"
 import LogoutModal from "@/components/modals/LogoutModal"
 import { toast } from "sonner"
@@ -330,8 +330,8 @@ const Navbar = () => {
   const [logoutModalOpen, setLogoutModalOpen] = useState(false)
   const [open, setOpen] = useState(false)
 
-  const [desktopServicesOpen, setDesktopServicesOpen] = useState(false)
-const [mobileServicesOpen, setMobileServicesOpen] = useState(false)
+  // const [desktopServicesOpen, setDesktopServicesOpen] = useState(false)
+  // const [mobileServicesOpen, setMobileServicesOpen] = useState(false)
 
 
 
@@ -339,17 +339,17 @@ const [mobileServicesOpen, setMobileServicesOpen] = useState(false)
   const status = session?.status
   const user = session?.data?.user
 
-  const serviceItems = [
-    {
-      label: "Profiles", link: "/profiles"
-    },
-    {
-      label: "Player Evalution Program", link: "/player-evalution-program"
-    }
-  ]
+  // const serviceItems = [
+  //   {
+  //     label: "Profiles", link: "/profiles"
+  //   },
+  //   {
+  //     label: "Player Evalution Program", link: "/player-evalution-program"
+  //   }
+  // ]
 
   // Replace with your actual base URL
-  const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://your-api-url.com"
+  const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || ""
 
   useEffect(() => {
     setOpen(false)
@@ -395,9 +395,34 @@ const [mobileServicesOpen, setMobileServicesOpen] = useState(false)
               >
                 Home
               </Link>
+
+               <Link
+                href="/services"
+                className={`text-sm md:text-base hover:text-primary leading-[150%] text-[#131313] font-normal transition-all ease-in-out duration-300 ${pathname === "/contact-us" ? "border-b-[2px] border-primary" : "border-0"
+                  }`}
+              >
+                Services
+              </Link>
+
+               <Link
+                href="/profiles"
+                className={`text-sm md:text-base hover:text-primary leading-[150%] text-[#131313] font-normal transition-all ease-in-out duration-300 ${pathname === "/contact-us" ? "border-b-[2px] border-primary" : "border-0"
+                  }`}
+              >
+                Profiles
+              </Link>
+
+               <Link
+                href="/player-evaluation-program"
+                className={`text-sm md:text-base hover:text-primary leading-[150%] text-[#131313] font-normal transition-all ease-in-out duration-300 ${pathname === "/contact-us" ? "border-b-[2px] border-primary" : "border-0"
+                  }`}
+              >
+                Player Evaluation Program
+              </Link>
+              
               {/* Services Dropdown - Desktop */}
-              <DropdownMenu modal={false}   open={desktopServicesOpen}
-  onOpenChange={setDesktopServicesOpen}>
+              {/* <DropdownMenu modal={false} open={desktopServicesOpen}
+                onOpenChange={setDesktopServicesOpen}>
                 <DropdownMenuTrigger asChild>
                   <button
                     className={`text-sm md:text-base flex items-center gap-1 leading-[150%] text-[#131313] font-normal  transition-all duration-300 hover:text-primary ${pathname.startsWith("/profiles") ||
@@ -429,7 +454,7 @@ const [mobileServicesOpen, setMobileServicesOpen] = useState(false)
                     </DropdownMenuItem>
                   ))}
                 </DropdownMenuContent>
-              </DropdownMenu>
+              </DropdownMenu> */}
 
               <Link
                 href="/prices"
@@ -438,13 +463,7 @@ const [mobileServicesOpen, setMobileServicesOpen] = useState(false)
               >
                 Prices
               </Link>
-              <Link
-                href="/contact-us"
-                className={`text-sm md:text-base hover:text-primary leading-[150%] text-[#131313] font-normal transition-all ease-in-out duration-300 ${pathname === "/contact-us" ? "border-b-[2px] border-primary" : "border-0"
-                  }`}
-              >
-                Contact Us
-              </Link>
+             
             </div>
 
             {/* CTA Buttons */}
@@ -533,36 +552,57 @@ const [mobileServicesOpen, setMobileServicesOpen] = useState(false)
                 Home
               </Link>
               {/* Services - Mobile */}
-              <button
-  onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-  className="flex items-center justify-between w-full text-sm text-[#131313]"
->
-  <span>Services</span>
-  <ChevronDown
-    className={`w-4 h-4 transition-transform ${
-      mobileServicesOpen ? "rotate-180" : "rotate-0"
-    }`}
-  />
-</button>
 
-{mobileServicesOpen && (
-  <div className="ml-4 flex flex-col gap-2">
-    {serviceItems.map((item) => (
-      <Link
-        key={item.link}
-        href={item.link}
-        className="text-sm hover:text-primary"
-        onClick={() => {
-          setIsOpen(false)
-          setMobileServicesOpen(false)
-        }}
-      >
-        {item.label}
-      </Link>
-    ))}
-  </div>
-)}
+              {/* <button
+                onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                className="flex items-center justify-between w-full text-sm text-[#131313]"
+              >
+                <span>Services</span>
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform ${mobileServicesOpen ? "rotate-180" : "rotate-0"
+                    }`}
+                />
+              </button>
 
+              {mobileServicesOpen && (
+                <div className="ml-4 flex flex-col gap-2">
+                  {serviceItems.map((item) => (
+                    <Link
+                      key={item.link}
+                      href={item.link}
+                      className="text-sm hover:text-primary"
+                      onClick={() => {
+                        setIsOpen(false)
+                        setMobileServicesOpen(false)
+                      }}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              )} */}
+
+               <Link
+                href="/services"
+                className={`w-fit text-sm md:text-base hover:text-primary leading-[150%] text-[#131313] font-normal transition-all ease-in-out duration-300 ${pathname === "/prices" ? "border-b-[2px] border-primary" : "border-0"
+                  }`}
+              >
+                Services
+              </Link>
+  <Link
+                href="/profiles"
+                className={`w-fit text-sm md:text-base hover:text-primary leading-[150%] text-[#131313] font-normal transition-all ease-in-out duration-300 ${pathname === "/contact-us" ? "border-b-[2px] border-primary" : "border-0"
+                  }`}
+              >
+                Profiles
+              </Link>
+                <Link
+                href="/player-evaluation-program"
+                className={`w-fit text-sm md:text-base hover:text-primary leading-[150%] text-[#131313] font-normal transition-all ease-in-out duration-300 ${pathname === "/contact-us" ? "border-b-[2px] border-primary" : "border-0"
+                  }`}
+              >
+                Player Evaluation Program
+              </Link>
 
               <Link
                 href="/prices"
@@ -571,13 +611,7 @@ const [mobileServicesOpen, setMobileServicesOpen] = useState(false)
               >
                 Prices
               </Link>
-              <Link
-                href="/contact-us"
-                className={`w-fit text-sm md:text-base hover:text-primary leading-[150%] text-[#131313] font-normal transition-all ease-in-out duration-300 ${pathname === "/contact-us" ? "border-b-[2px] border-primary" : "border-0"
-                  }`}
-              >
-                Contact Us
-              </Link>
+            
 
               <div className="flex items-center justify-between gap-4 pt-2">
                 {status === "authenticated" && user ? (

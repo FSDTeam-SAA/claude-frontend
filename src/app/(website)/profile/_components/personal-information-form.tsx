@@ -43,6 +43,9 @@ const formSchema = z.object({
     lastName: z.string().min(2, {
         message: "Last Name must be at least 2 characters.",
     }),
+    jerseyNumber: z.string().min(1, {
+        message: "Jersey Number must be at least 1 characters.",
+    }),
     email: z.string().min(2, {
         message: "Email must be at least 2 characters.",
     }),
@@ -120,6 +123,7 @@ const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ user 
         defaultValues: {
             firstName: user?.firstName || "",
             lastName: user?.lastName || "",
+            jerseyNumber: user?.jerseyNumber || "",
             email: user?.email || "",
             gender: user?.gender || "",
             hight: user?.hight || "",
@@ -207,9 +211,7 @@ const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ user 
                                     </FormItem>
                                 )}
                             />
-                        </div>
-
-                        <FormField
+                            <FormField
                             control={form.control}
                             name="gender"
                             render={({ field }) => (
@@ -236,6 +238,22 @@ const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ user 
                                 </FormItem>
                             )}
                         />
+                        <FormField
+                                control={form.control}
+                                name="jerseyNumber"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-base font-normal leading-[150%] text-[#131313]">Jersey Number</FormLabel>
+                                        <FormControl>
+                                            <Input className="w-full h-[47px]  border border-[#645949] rounded-[8px] text-[#131313] placeholder:text-[#929292] text-sm font-normal leading-[150%]" placeholder="Jackson" {...field} />
+                                        </FormControl>
+                                        <FormMessage className="text-red-500" />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
+                        
 
                         <FormField
                             control={form.control}
@@ -244,7 +262,7 @@ const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ user 
                                 <FormItem>
                                     <FormLabel className="text-base font-normal leading-[150%] text-[#131313]">Email Address</FormLabel>
                                     <FormControl>
-                                        <Input className="w-full h-[47px]  border border-[#645949] rounded-[8px] text-[#131313] placeholder:text-[#929292] text-sm font-normal leading-[150%]" placeholder="alma.lawson@example.com" {...field} />
+                                        <Input disabled className="w-full h-[47px]  border border-[#645949] rounded-[8px] text-[#131313] placeholder:text-[#929292] text-sm font-normal leading-[150%]" placeholder="alma.lawson@example.com" {...field} />
                                     </FormControl>
                                     <FormMessage className="text-red-500" />
                                 </FormItem>

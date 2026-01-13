@@ -11,6 +11,7 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart"
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CustomBarLabel = (props: any) => {
   const { x, y, width, value } = props
 
